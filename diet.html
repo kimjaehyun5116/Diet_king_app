@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="MacJae" />
+    <meta name="keywords" content="맞춤 식단 만들기" />
+    <meta name="description" content="맞춤 식단 만들기" />
+
+    <!-- sns share -->
+    <meta property="og:url" content="https://diet-king.netlify.app/" />
+    <meta property="og:title" content="식단 만들기" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/main.png" />
+    <meta property="og:description" content="맞춤 식단 만들기" />
+
+    <!--favicon-->
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
+    <title>다킹</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="/css/default.css" />
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+      Kakao.init("574e770008e383cdbdb1389d4f4074c1");
+      Kakao.isInitialized();
+    </script>
+    <ins
+      class="kakao_ad_area"
+      style="display: none"
+      data-ad-unit="DAN-07cIPmTFzrJsRDO1"
+      data-ad-width="320"
+      data-ad-height="100"
+    ></ins>
+    <script
+      type="text/javascript"
+      src="//t1.daumcdn.net/kas/static/ba.min.js"
+      async
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="maintitle">
+        <img src="/img/main.png" alt="Main Image" />
+        Diet-King Planner
+      </div>
+
+      <form id="healthForm">
+        <table>
+          <tr>
+            <td>이름</td>
+            <td><input type="text" id="name" required /></td>
+          </tr>
+          <tr>
+            <td>나이</td>
+            <td><input type="number" id="age" required /></td>
+          </tr>
+          <tr>
+            <td>성별</td>
+            <td>
+              <select id="gender" required>
+                <option value="male">남성</option>
+                <option value="female">여성</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>키 (cm)</td>
+            <td><input type="number" id="height" required /></td>
+          </tr>
+          <tr>
+            <td>체중 (kg)</td>
+            <td><input type="number" id="weight" required /></td>
+          </tr>
+          <tr>
+            <td>활동량</td>
+            <td>
+              <select id="activityLevel" required>
+                <option value="low">적음</option>
+                <option value="moderate">보통</option>
+                <option value="high">많음</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>목표</td>
+            <td>
+              <select id="goal" required>
+                <option value="diet">다이어트</option>
+                <option value="maintenance">건강유지</option>
+                <option value="bulk">벌크업</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>일일 섭취 식사 수(숫자)</td>
+            <td><input type="number" id="mealsPerDay" required /></td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center">
+              <button
+                type="button"
+                class="custom2-button"
+                onclick="js:calculateResults()"
+              >
+                계산하기
+              </button>
+            </td>
+          </tr>
+        </table>
+      </form>
+
+      <div id="result" class="result">
+        <br />
+        <ins
+          class="kakao_ad_area"
+          style="display: none"
+          data-ad-unit="DAN-lOWSjjfv71bODmzC"
+          data-ad-width="320"
+          data-ad-height="50"
+        ></ins>
+        <script
+          type="text/javascript"
+          src="//t1.daumcdn.net/kas/static/ba.min.js"
+          async
+        ></script>
+        <div class="result-box">
+          <h2>결과</h2>
+          <p>기초대사량: <span id="bmr"></span> kcal</p>
+          <p>일일 필요 칼로리: <span id="dailyCalories"></span> kcal</p>
+          <p>일일 필요 단백질: <span id="dailyProtein"></span> g</p>
+          <p>일일 필요 탄수화물: <span id="dailyCarbs"></span> g</p>
+          <p>일일 필요 지방: <span id="dailyFat"></span> g</p>
+        </div>
+        <br />
+        <h2>식단표</h2>
+        <br />
+        <div id="mealPlan" class="meal-plan-container"></div>
+        <p1
+          >지방섭취량은 임의로 고정되어있으며 기호에 맞게 가감하여 드시면됩니다.
+          영향 불균형을 초래할 수 있으니 푸른채소 등을 꼭 곁들여 드세요</p1
+        ><br /><br />
+        <!-- <button
+          type="button"
+          onclick="window.location.href='/index.html'"
+          class="custom3-button"
+        >
+          첫페이지
+        </button> -->
+        <!-- <button type="button" class="custom3-button" onclick="window.location.href='gpt.html'">
+          챗봇질문
+        </button> -->
+        <ins
+          class="kakao_ad_area"
+          style="display: none"
+          data-ad-unit="DAN-lOWSjjfv71bODmzC"
+          data-ad-width="320"
+          data-ad-height="50"
+        ></ins>
+        <script
+          type="text/javascript"
+          src="//t1.daumcdn.net/kas/static/ba.min.js"
+          async
+        ></script>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px"></div>
+    </div>
+    <script src="/src/data.js" charset="utf-8"></script>
+    <script src="/src/start.js" charset="utf-8"></script>
+    <script src="/src/share.js" charset="utf-8"></script>
+    <ins
+      class="kakao_ad_area"
+      style="display: none"
+      data-ad-unit="DAN-Mik0XMBalpnLAA0G"
+      data-ad-width="320"
+      data-ad-height="100"
+    ></ins>
+    <script
+      type="text/javascript"
+      src="//t1.daumcdn.net/kas/static/ba.min.js"
+      async
+    ></script>
+  </body>
+  <footer>
+    <div>
+      <p>&copy; 맥재 MacJae 2024. All Rights Reserved.</p>
+    </div>
+  </footer>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="MacJae" />
+    <meta name="keywords" content="다킹" />
+    <meta name="description" content="다킹" />
+
+    <!-- sns share -->
+    <meta property="og:url" content="https://diet-king.netlify.app/" />
+    <meta property="og:title" content="다킹" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/main.png" />
+    <meta property="og:description" content="다킹" />
+
+    <!--favicon-->
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
+    <title>월간 스케줄표</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+      }
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        background-color: #ccc;
+      }
+      .calendar-header,
+      .calendar-cell {
+        padding: 10px;
+        text-align: center;
+        background-color: white;
+      }
+      .calendar-header {
+        font-weight: bold;
+        background-color: #f4f4f4;
+      }
+      .calendar-cell {
+        border: 1px solid #ddd;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+      .calendar-cell .time-slots {
+        display: flex;
+        flex-direction: column;
+        height: 300px;
+        overflow-y: auto;
+      }
+      .time-slot {
+        border-bottom: 1px solid #ddd;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+      }
+      .time-slot .time-label {
+        width: 60px;
+        font-size: 14px;
+        text-align: center;
+        border-right: 1px solid #ddd;
+      }
+      .time-slot .time-memo {
+        flex: 1;
+        padding: 5px;
+      }
+      .time-slot .time-memo textarea {
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding: 5px;
+        box-sizing: border-box;
+        resize: none;
+        background-color: #f9f9f9;
+        font-size: 12px; /* 글씨 크기를 조정 */
+      }
+      .filter-wrapper {
+        margin-bottom: 20px;
+      }
+      .filter-wrapper label {
+        margin-right: 10px;
+      }
+      .filter-wrapper select {
+        margin-right: 10px;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 600px;
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .modal-content .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      .modal-content .calendar-cell {
+        display: block;
+      }
+      .modal-content .time-slots {
+        height: auto;
+      }
+      body.modal-open {
+        overflow: hidden;
+      }
+      .month-navigation {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      .month-navigation button {
+        margin: 0 10px;
+      }
+      @media (max-width: 768px) {
+        .time-slot {
+          flex-direction: column;
+        }
+        .time-slot .time-label {
+          width: 100%;
+          border-right: none;
+          border-bottom: 1px solid #ddd;
+        }
+        .time-slot .time-memo {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center" id="currentMonthYear">
+      2024년 7월 스케줄표
+    </h1>
+
+    <!-- 이전/다음 월 버튼 -->
+    <div class="month-navigation">
+      <button onclick="changeMonth(-1)">이전 월</button>
+      <button onclick="changeMonth(1)">다음 월</button>
+    </div>
+
+    <div class="filter-wrapper">
+      <label for="filterDate">날짜 선택:</label>
+      <select id="filterDate">
+        <option value="">모든 날짜</option>
+        <!-- JavaScript로 옵션 추가 -->
+      </select>
+      <br />
+      <label for="filterHour">시간 선택:</label>
+      <select id="filterHour">
+        <option value="">모든 시간</option>
+        <!-- JavaScript로 옵션 추가 -->
+      </select>
+    </div>
+
+    <div class="calendar" id="calendar"></div>
+
+    <!-- 모달 -->
+    <div id="dateModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="modalClose">&times;</span>
+        <h2 id="modalDateTitle"></h2>
+        <div class="calendar-cell" id="modalDateCell">
+          <div class="time-slots"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentYear = 2024;
+      let currentMonth = 7;
+
+      // 메모 데이터 저장 객체
+      const memoData = {};
+
+      function createCalendar(year, month) {
+        const calendar = document.getElementById("calendar");
+        const filterDate = document.getElementById("filterDate");
+        const filterHour = document.getElementById("filterHour");
+
+        calendar.innerHTML = "";
+
+        const daysInMonth = new Date(year, month, 0).getDate();
+        const firstDay = new Date(year, month - 1, 1).getDay();
+
+        const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+        daysOfWeek.forEach((day) => {
+          const headerCell = document.createElement("div");
+          headerCell.className = "calendar-header";
+          headerCell.textContent = day;
+          calendar.appendChild(headerCell);
+        });
+
+        for (let i = 0; i < firstDay; i++) {
+          const emptyCell = document.createElement("div");
+          emptyCell.className = "calendar-cell";
+          calendar.appendChild(emptyCell);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const cell = document.createElement("div");
+          cell.className = "calendar-cell";
+          cell.innerHTML = `<div>${day}</div>`;
+
+          const timeSlots = document.createElement("div");
+          timeSlots.className = "time-slots";
+
+          for (let hour = 6; hour <= 23; hour++) {
+            const slot = document.createElement("div");
+            slot.className = "time-slot";
+
+            const timeLabel = document.createElement("div");
+            timeLabel.className = "time-label";
+            timeLabel.textContent = `${hour}:00`;
+
+            const timeMemo = document.createElement("div");
+            timeMemo.className = "time-memo";
+            timeMemo.innerHTML = `<textarea placeholder="" readonly></textarea>`;
+
+            slot.appendChild(timeLabel);
+            slot.appendChild(timeMemo);
+            timeSlots.appendChild(slot);
+          }
+
+          cell.appendChild(timeSlots);
+          calendar.appendChild(cell);
+
+          cell.addEventListener("click", () => showModal(day));
+        }
+
+        // 필터 옵션 업데이트
+        filterDate.innerHTML = '<option value="">모든 날짜</option>';
+        for (let day = 1; day <= daysInMonth; day++) {
+          const option = document.createElement("option");
+          option.value = day;
+          option.textContent = `${day}일`;
+          filterDate.appendChild(option);
+        }
+
+        filterHour.innerHTML = '<option value="">모든 시간</option>';
+        for (let hour = 6; hour <= 23; hour++) {
+          const option = document.createElement("option");
+          option.value = hour;
+          option.textContent = `${hour}시`;
+          filterHour.appendChild(option);
+        }
+
+        document.getElementById("currentMonthYear").textContent = `${year}년 ${
+          month < 10 ? "0" + month : month
+        }월 스케줄표`;
+
+        // 메모 로드
+        loadMemos(year, month);
+      }
+
+      function changeMonth(offset) {
+        currentMonth += offset;
+        if (currentMonth > 12) {
+          currentMonth = 1;
+          currentYear++;
+        } else if (currentMonth < 1) {
+          currentMonth = 12;
+          currentYear--;
+        }
+        createCalendar(currentYear, currentMonth);
+      }
+
+      function addMemo(
+        day,
+        hour,
+        memo,
+        color,
+        year = currentYear,
+        month = currentMonth
+      ) {
+        if (!memoData[year]) {
+          memoData[year] = {};
+        }
+        if (!memoData[year][month]) {
+          memoData[year][month] = {};
+        }
+        if (!memoData[year][month][day]) {
+          memoData[year][month][day] = {};
+        }
+        memoData[year][month][day][hour] = { memo, color };
+
+        loadMemos(year, month);
+      }
+
+      function loadMemos(year, month) {
+        if (!memoData[year] || !memoData[year][month]) return;
+
+        const calendar = document.getElementById("calendar");
+        const cells = calendar.querySelectorAll(".calendar-cell");
+
+        cells.forEach((cell) => {
+          const dateDiv = cell.querySelector("div");
+          if (dateDiv) {
+            const day = parseInt(dateDiv.textContent);
+            const timeSlots = cell.querySelector(".time-slots");
+
+            if (
+              timeSlots &&
+              memoData[year] &&
+              memoData[year][month] &&
+              memoData[year][month][day]
+            ) {
+              Object.keys(memoData[year][month][day]).forEach((hour) => {
+                const slot = timeSlots.children[hour - 6];
+                if (slot) {
+                  const textarea = slot.querySelector("textarea");
+                  if (textarea) {
+                    const memoObj = memoData[year][month][day][hour];
+                    textarea.value = memoObj.memo;
+                    textarea.style.backgroundColor = memoObj.color;
+                  }
+                }
+              });
+            }
+          }
+        });
+      }
+
+      function filterCalendar() {
+        const selectedDate = parseInt(
+          document.getElementById("filterDate").value
+        );
+        const selectedHour = parseInt(
+          document.getElementById("filterHour").value
+        );
+        const cells = document.querySelectorAll(".calendar-cell");
+
+        cells.forEach((cell) => {
+          const dateDiv = cell.querySelector("div");
+          const timeSlots = cell.querySelector(".time-slots");
+
+          if (dateDiv && timeSlots) {
+            const date = parseInt(dateDiv.textContent);
+            const slots = timeSlots.querySelectorAll(".time-slot");
+
+            if (isNaN(selectedDate) || date === selectedDate) {
+              cell.style.display = "flex";
+              slots.forEach((slot, index) => {
+                if (isNaN(selectedHour) || index === selectedHour - 6) {
+                  slot.style.display = "flex";
+                } else {
+                  slot.style.display = "none";
+                }
+              });
+            } else {
+              cell.style.display = "none";
+            }
+          }
+        });
+      }
+
+      function showModal(day) {
+        const modal = document.getElementById("dateModal");
+        const modalDateTitle = document.getElementById("modalDateTitle");
+        const modalDateCell = document.getElementById("modalDateCell");
+        const calendar = document.getElementById("calendar");
+        const cells = calendar.querySelectorAll(".calendar-cell");
+
+        let dateFound = false;
+
+        cells.forEach((cell) => {
+          const dateDiv = cell.querySelector("div");
+          const timeSlots = cell.querySelector(".time-slots");
+
+          if (dateDiv && timeSlots) {
+            const date = parseInt(dateDiv.textContent);
+
+            if (date === day) {
+              modalDateTitle.textContent = `${day}일 스케줄`;
+              const timeSlotsClone = timeSlots.cloneNode(true);
+
+              modalDateCell.innerHTML = `<div>${day}</div>`;
+              modalDateCell.appendChild(timeSlotsClone);
+              dateFound = true;
+              modal.style.display = "flex";
+              document.body.classList.add("modal-open");
+
+              document.getElementById("filterHour").value = "";
+              filterCalendar();
+            }
+          }
+        });
+
+        if (!dateFound) {
+          modalDateTitle.textContent = `날짜 ${day}일의 데이터가 없습니다.`;
+          modalDateCell.innerHTML = "";
+        }
+      }
+
+      document.getElementById("modalClose").addEventListener("click", () => {
+        closeModal();
+      });
+
+      document.getElementById("dateModal").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("dateModal")) {
+          closeModal();
+        }
+      });
+
+      function closeModal() {
+        document.getElementById("dateModal").style.display = "none";
+        document.body.classList.remove("modal-open");
+      }
+
+      document
+        .getElementById("filterDate")
+        .addEventListener("change", filterCalendar);
+      document
+        .getElementById("filterHour")
+        .addEventListener("change", filterCalendar);
+
+      // 초기 로드시 현재 월 메모 표시
+      createCalendar(currentYear, currentMonth);
+
+      // #0000FF(블루), #87CEEB(스카이블루), #FFA500(주황), #FFFF00(노랑), #0000FF(블루),
+      // #87CEEB(스카이블루), #FF0000(빨강), #00FF00(초록),
+      // #800080(보라), #FFC0CB(핑크), #A52A2A(브라운), #008080(청록), #000000(검정),
+      // #FFFFFF(흰색), #808080(회색), #D3D3D3(라이트그레이), #FFD700(골드), #800000(마룬),
+      // #4682B4(스틸블루), #8A2BE2(블루바이올렛), #DC143C(크림슨), #DAA520(골든로드)
+      // 예시 메모 추가 (7월과 8월)
+      addMemo(29, 11, "개인운동", "#87CEEB", 2024, 7);
+      addMemo(29, 12, "개인운동", "#87CEEB", 2024, 7);
+      addMemo(30, 11, "개인운동", "#87CEEB", 2024, 7);
+      addMemo(30, 12, "개인운동", "#87CEEB", 2024, 7);
+      addMemo(31, 11, "개인운동", "#87CEEB", 2024, 7);
+      addMemo(31, 12, "개인운동", "#87CEEB", 2024, 7);
+      addMemo(7, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(7, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(8, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(8, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(9, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(9, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(12, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(12, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(13, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(13, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(14, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(14, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(16, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(16, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(19, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(19, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(20, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(20, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(21, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(21, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(22, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(22, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(23, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(23, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(26, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(26, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(27, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(27, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(28, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(28, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(29, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(29, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(30, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(30, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(30, 9, "이다은OT", "#0000ff", 2024, 7);
+      addMemo(30, 10, "양은란PT", "#ffa500", 2024, 7);
+      addMemo(31, 19, "이민우PT", "#00FF00", 2024, 7);
+      addMemo(1, 9, "이주현PT", "#00FF00", 2024, 8);
+      addMemo(1, 10, "양은란PT", "#ffa500", 2024, 8);
+      addMemo(1, 11, "이은결OT", "#0000ff", 2024, 8);
+      addMemo(1, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(1, 13, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(1, 20, "김재룡PT", "#FFA500", 2024, 8);
+      addMemo(1, 21, "황지은PT", "#FFA500", 2024, 8);
+      addMemo(1, 22, "김도현OT", "#FFA500", 2024, 8);
+      addMemo(1, 14, "오정인PT", "#FFA500", 2024, 8);
+      addMemo(2, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(2, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(2, 19, "이민우PT", "#00FF00", 2024, 8);
+      addMemo(2, 20, "조용식PT", "#4682B4", 2024, 8);
+      addMemo(5, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(5, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(5, 20, "이상민OT", "#FFA500", 2024, 8);
+      addMemo(6, 9, "이서홍PT", "#0000ff", 2024, 8);
+      addMemo(6, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(6, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(6, 20, "김재룡PT", "#FFA500", 2024, 8);
+
+      // 초기 로드시 현재 월 메모 표시
+      createCalendar(currentYear, currentMonth);
+    </script>
+  </body>
+</html>

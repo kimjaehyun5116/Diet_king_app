@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="MacJae" />
+    <meta name="keywords" content="에그짐" />
+    <meta name="description" content="에그짐" />
+
+    <!-- sns share -->
+    <meta property="og:url" content="https://diet-king.netlify.app/" />
+    <meta property="og:title" content="에그짐" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/main.png" />
+    <meta property="og:description" content="에그짐" />
+
+    <!--favicon-->
+    <link rel="shortcut icon" href="/img/eggymlogo.png" />
+    <link rel="apple-touch-icon-precomposed" href="/img/eggymlogo.png" />
+    <title>로그인 페이지</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .login-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+      .login-container h2 {
+        margin-bottom: 20px;
+      }
+      .login-container input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .login-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .login-container button:hover {
+        background-color: #0056b3;
+      }
+      #error-message {
+        color: red;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>로그인</h2>
+      <input type="text" id="username" placeholder="이름을 입력하세요" />
+      <input
+        type="password"
+        id="password"
+        placeholder="비밀번호를 입력하세요"
+      />
+      <button onclick="login()">로그인</button>
+      <p id="error-message">잘못된 이름 또는 비밀번호입니다.</p>
+    </div>
+
+    <script>
+      async function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // 입력값이 비어있는지 확인
+        if (username === "" || password === "") {
+          document.getElementById("error-message").innerText =
+            "이름 또는 비밀번호를 입력하세요.";
+          document.getElementById("error-message").style.display = "block";
+          return; // 입력값이 비어있으면 로그인 처리 중단
+        }
+
+        // 여기에 실제 로그인 처리 로직 추가
+        // 예시: 입력값이 맞는지 확인하여 페이지 이동
+        const users = [
+          {
+            username: "asdf",
+            password: "a1234",
+            page: "./userpage/user1_page.html",
+          },
+          {
+            username: "wofyd0305",
+            password: "930305",
+            page: "./userpage/kimjaeryong.html",
+          },
+          {
+            username: "mmyoyo3",
+            password: "900902",
+            page: "./userpage/leeminwoo.html",
+          },
+          {
+            username: "ohwowji",
+            password: "931022",
+            page: "./userpage/Oh Jung-in.html",
+          },
+          {
+            username: "toqurwkfl",
+            password: "850221",
+            page: "./userpage/Park Min-seon.html",
+          },
+          {
+            username: "plokplo",
+            password: "800222",
+            page: "./userpage/LeeSeoHong.html",
+          },
+          {
+            username: "jo930308",
+            password: "930308",
+            page: "./userpage/Jo Yong-sik.html",
+          },
+          {
+            username: "y486486h",
+            password: "840511",
+            page: "./userpage/hwangJieun.html",
+          },
+          {
+            username: "hhhhh285",
+            password: "910329",
+            page: "./userpage/Lee Hyun-joo.html",
+          },
+          {
+            username: "bestme",
+            password: "851121",
+            page: "./userpage/Yangenran.html",
+          },
+        ];
+
+        const user = users.find(
+          (user) => user.username === username && user.password === password
+        );
+
+        if (user) {
+          window.location.href = user.page; // 로그인 성공 시 페이지 이동
+        } else {
+          document.getElementById("error-message").innerText =
+            "잘못된 이름 또는 비밀번호입니다.";
+          document.getElementById("error-message").style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>

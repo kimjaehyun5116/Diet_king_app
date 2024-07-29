@@ -1,0 +1,550 @@
+/* 기본 스타일 */
+body {
+  font-family: "Avenir", "Arial", "Georgia", sans-serif;
+  background-color: rgb(31, 30, 30);
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.rating {
+  font-size: 1em; /* 별의 크기 조절 */
+  color: gold; /* 채워진 별의 색상 */
+  display: inline-flex;
+}
+
+.star {
+  display: inline-block;
+  position: relative;
+}
+
+.star.full {
+  color: gold; /* 채워진 별의 색상 */
+}
+
+.star.half {
+  position: relative;
+  color: lightgray; /* 반쪽 별의 채워진 부분 색상 */
+}
+
+.star.half::after {
+  content: "\2605"; /* ★ (별) */
+  color: gold; /* 반쪽 별의 비어 있는 부분 색상 */
+  position: absolute;
+  width: 50%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+}
+
+.star.empty {
+  color: lightgray; /* 빈 별의 색상 */
+}
+
+header {
+  width: 100%;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 150px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.logo {
+  margin-right: 100px;
+}
+
+.logo img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 30px;
+  position: relative;
+}
+
+nav ul li a {
+  color: whitesmoke;
+  text-decoration: none;
+  display: block;
+  padding: 10px 0;
+}
+
+nav ul li:hover a {
+  color: #006341;
+}
+
+nav ul .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: whitesmoke;
+  padding: 10px 0;
+  width: 200px;
+  z-index: 1000;
+}
+
+nav ul .submenu li {
+  margin: 0;
+}
+
+nav ul .submenu li a {
+  padding: 10px 20px;
+  color: black;
+}
+
+nav ul li:hover .submenu {
+  display: block;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+main {
+  background-color: black;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.promo {
+  position: relative;
+  max-width: 100%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.slideshow-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+}
+
+.slide {
+  flex: 1 0 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: #333333;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.dots {
+  text-align: center;
+  padding: 20px;
+}
+
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: rgb(230, 214, 40);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot.active {
+  background-color: white;
+}
+
+.rewards {
+  background-color: black;
+  padding: 40px 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.rewards h2 {
+  color: whitesmoke;
+}
+
+.rewards a {
+  color: whitesmoke;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+footer {
+  background-color: #333333;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
+footer p {
+  color: whitesmoke;
+}
+
+.supplement-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.supplement-item {
+  width: 22%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.supplement-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.rating {
+  color: yellow;
+  margin: 10px 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.info-button {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  border: 1px solid white;
+  border-radius: 5px;
+  text-decoration: none;
+  color: whitesmoke;
+  text-align: center;
+}
+
+.info-button:hover {
+  background-color: whitesmoke;
+  color: black;
+}
+
+.name {
+  color: whitesmoke;
+  font-size: 1.2em;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Pagination */
+.pagination {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.page-button {
+  background-color: #006341;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.page-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#pageNumbers {
+  font-size: 18px;
+  margin: 0 10px;
+  color: whitesmoke;
+}
+
+/* 모바일 화면에서의 스타일 */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    height: auto;
+  }
+
+  .logo {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .logo img {
+    height: 70px;
+    width: 70px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  nav ul li {
+    margin: 5px 0;
+    position: relative;
+    width: 100%;
+  }
+
+  nav ul li a {
+    font-size: 14px;
+    display: block;
+    padding: 10px;
+  }
+
+  nav ul .submenu {
+    width: 100%;
+    left: 0;
+    transform: none;
+    position: relative;
+    text-align: center;
+  }
+
+  .promo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .promo img {
+    width: 100%;
+  }
+
+  .slide img {
+    width: 100%;
+  }
+
+  .prev,
+  .next {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .dot {
+    height: 10px;
+    width: 10px;
+  }
+
+  .rewards h2 {
+    font-size: 20px;
+  }
+
+  .rewards a {
+    font-size: 14px;
+  }
+
+  .supplement-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .supplement-item {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo img {
+    height: 50px;
+    width: 50px;
+  }
+
+  nav ul li a {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .prev,
+  .next {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .dot {
+    height: 10px;
+    width: 10px;
+  }
+
+  .rewards h2 {
+    font-size: 20px;
+  }
+
+  .rewards a {
+    font-size: 14px;
+  }
+  @media (max-width: 480px) {
+    .container {
+      width: 100%;
+      padding: 10px;
+    }
+
+    header {
+      flex-direction: column;
+      text-align: center;
+      padding: 10px;
+      height: auto;
+    }
+
+    .logo {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+    .logo img {
+      height: 50px;
+      width: 50px;
+    }
+
+    nav ul {
+      flex-direction: column;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    nav ul li {
+      margin: 5px 0;
+      position: relative;
+      width: 100%;
+    }
+
+    nav ul li a {
+      font-size: 14px;
+      display: block;
+      padding: 10px;
+    }
+
+    nav ul .submenu {
+      width: 100%;
+      left: 0;
+      transform: none;
+      position: relative;
+      text-align: center;
+    }
+
+    .promo {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .promo img {
+      width: 100%;
+    }
+
+    .slide img {
+      width: 100%;
+    }
+
+    .prev,
+    .next {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .dot {
+      height: 10px;
+      width: 10px;
+    }
+
+    .rewards h2 {
+      font-size: 20px;
+    }
+
+    .rewards a {
+      font-size: 14px;
+    }
+
+    .supplement-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .supplement-item {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .pagination {
+      flex-direction: row; /* Ensure the pagination elements stay in a single row */
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .page-button {
+      padding: 5px 10px; /* Adjust padding for mobile view */
+      font-size: 14px;
+    }
+
+    #pageNumbers {
+      font-size: 16px;
+    }
+    .pagination {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .page-button {
+      display: none;
+    }
+    .page-button:nth-child(-n + 4) {
+      display: inline-block;
+    }
+  }
+}

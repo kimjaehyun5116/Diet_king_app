@@ -1,0 +1,224 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+* {
+  font-family: "Helvetica Neue", "Arial", "sans-serif";
+}
+.container {
+  background-color: white;
+  width: 100%;
+  padding: 20px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 23px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 0; /* 콘테이너의 마진을 없애줍니다 */
+}
+table {
+  background-color: whitesmoke;
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 23px;
+}
+.result {
+  margin-top: 20px;
+}
+.meal-item {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+footer {
+  width: 100%;
+  margin: 0;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  background-color: #f1f1f1;
+}
+.custom1-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 5px;
+  border-radius: 5px;
+  border-color: #4caf50;
+  cursor: pointer;
+}
+.custom1-button:hover,
+.custom1-button:focus {
+  background-color: whitesmoke;
+  color: #4caf50;
+}
+.kakao {
+  color: white;
+  background-color: #fee500;
+  padding: 10px 5px;
+  border-radius: 5px;
+  border-color: #fee500;
+  cursor: pointer;
+}
+.kakao:hover,
+.kakao:focus {
+  background-color: whitesmoke;
+  color: #fee500;
+}
+.custom2-button {
+  background-color: white;
+  color: #ff5c5c;
+  padding: 5px 5px;
+  border-color: #ff5c5c;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.custom2-button:hover,
+.custom2-button:focus {
+  background-color: #ff5c5c;
+  color: white;
+}
+.custom3-button {
+  background-color: #ff5c5c;
+  color: white;
+  padding: 10px 5px;
+  border-color: #ff5c5c;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.custom3-button:hover,
+.custom3-button:focus {
+  background-color: white;
+  color: #ff5c5c;
+}
+.custom4-button {
+  background-color: #5e68ed;
+  color: white;
+  padding: 10px 5px;
+  border-color: #5e68ed;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.custom4-button:hover,
+.custom4-button:focus {
+  background-color: white;
+  color: #5e68ed;
+}
+.day-box {
+  background-color: rgb(179, 245, 160);
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 600px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.meal {
+  margin-bottom: 10px;
+}
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+li {
+  margin-left: 20px;
+}
+.result-box {
+  margin: 0 auto;
+  max-width: 90%;
+  background-color: whitesmoke;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+p1 {
+  font-size: 15px;
+}
+.maintitle {
+  background-color: antiquewhite;
+  margin: 0 auto;
+  width: 90%;
+  font-size: 60px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.maintitle img {
+  margin-left: 0px;
+  margin-right: 15%;
+  height: auto; /* 이미지 높이 */
+  width: 150px; /* 이미지 너비 자동 조정 */
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 10px;
+    font-size: 18px;
+  }
+  th,
+  td {
+    font-size: 18px;
+  }
+  footer {
+    font-size: 20px;
+    height: 40px;
+  }
+  .maintitle {
+    font-size: 40px;
+  }
+  .maintitle img {
+    width: 120px;
+    margin-right: 10%;
+  }
+}
+
+@media (max-width: 480px) {
+  .body {
+    height: 70%;
+  }
+  .container {
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+  }
+  th,
+  td {
+    font-size: 16px;
+  }
+  footer {
+    font-size: 18px;
+  }
+  .custom1-button,
+  .kakao,
+  .custom2-button,
+  .custom3-button,
+  .custom4-button {
+    padding: 10px 2px;
+    font-size: 14px;
+  }
+  .maintitle {
+    font-size: 30px;
+  }
+  .maintitle img {
+    width: 100px;
+    margin-right: 5%;
+  }
+}

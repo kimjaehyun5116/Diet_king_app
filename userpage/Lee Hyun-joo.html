@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
+    <title>이현주 회원님 개인 페이지</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 50px; /* 페이지 하단에 마진 추가 */
+      }
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-gap: 5px; /* 간격 줄이기 */
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px; /* 마진 줄이기 */
+        overflow-x: auto;
+      }
+      .calendar-header {
+        font-weight: bold;
+        border: 1px solid #ccc;
+        padding: 3px; /* 패딩 줄이기 */
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 0.9em; /* 글자 크기 줄이기 */
+      }
+      .calendar-cell {
+        border: 1px solid #ccc;
+        padding: 3px; /* 패딩 줄이기 */
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 0.9em; /* 글자 크기 줄이기 */
+      }
+      .session-date {
+        width: 30px; /* 너비 조정 */
+        height: 25px; /* 높이 조정 */
+        font-size: 0.8em; /* 글자 크기 조정 */
+        padding: 3px; /* 패딩 조정 */
+        box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
+        border: 1px solid #ccc; /* 테두리 스타일 조정 */
+        border-radius: 4px; /* 모서리 둥글게 하기 */
+      }
+      @media only screen and (max-width: 480px) {
+        .calendar {
+          grid-template-columns: repeat(1, 1fr);
+          overflow-x: auto;
+        }
+        .inbody-table {
+          grid-template-columns: repeat(1, 1fr);
+        }
+        #combinedChart {
+          height: 500px;
+        }
+      }
+      @media only screen and (min-width: 481px) and (max-width: 900px) {
+        .calendar {
+          grid-template-columns: repeat(2, 1fr);
+          overflow-x: auto;
+        }
+        .inbody-table {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        #combinedChart {
+          height: 400px;
+        }
+      }
+      @media only screen and (min-width: 901px) {
+        .calendar {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .inbody-table {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        #combinedChart {
+          height: 300px;
+        }
+      }
+      .inbody-table {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 5px; /* 간격 줄이기 */
+        justify-items: center;
+        margin: 0;
+        padding: 0;
+      }
+      .inbody-table img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        width: 100px; /* 이미지 크기 조정 */
+        height: auto; /* 높이 자동 조절 */
+      }
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .modal-content {
+        background-color: white;
+        padding: 10px; /* 패딩 줄이기 */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 80%;
+        max-height: 80%;
+        overflow: auto;
+        position: relative;
+      }
+      .modal-img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+      .close-btn {
+        position: absolute;
+        top: 5px; /* 위치 조정 */
+        right: 5px; /* 위치 조정 */
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 14px; /* 글자 크기 줄이기 */
+        color: #555;
+      }
+      .lesson-box {
+        background-color: #f0f0f0;
+        padding: 5px; /* 패딩 줄이기 */
+        text-align: center;
+        font-size: 0.9em; /* 글자 크기 줄이기 */
+      }
+      .personal-info {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        overflow: auto;
+      }
+      .personal-info table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .personal-info th,
+      .personal-info td {
+        border: 1px solid #ccc;
+        padding: 6px; /* 패딩 줄이기 */
+        text-align: center;
+        font-size: 0.9em; /* 글자 크기 줄이기 */
+      }
+      .personal-info th {
+        background-color: #f0f0f0;
+      }
+      .next-session {
+        background-color: #f9f9f9;
+        padding: 10px; /* 패딩 줄이기 */
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 0.9em; /* 글자 크기 줄이기 */
+      }
+      .schedule-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .schedule-link {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 15px; /* 패딩 줄이기 */
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 0.9em; /* 글자 크기 줄이기 */
+      }
+      .schedule-link:hover {
+        background-color: #0056b3;
+      }
+      .session-table-wrapper {
+        overflow-x: auto;
+        margin-bottom: 20px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 6px; /* 패딩 줄이기 */
+        text-align: center;
+        font-size: 0.9em; /* 글자 크기 줄이기 */
+        white-space: nowrap; /* 줄 바꿈 방지 */
+      }
+      thead th {
+        background-color: #f0f0f0;
+      }
+      .scroll-container {
+        width: 100%;
+        overflow-x: auto;
+        margin: 20px 0;
+      }
+
+      .record-table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      .record-table th,
+      .record-table td {
+        border: 1px solid #ddd;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .record-table th {
+        background-color: #f4f4f4;
+      }
+
+      .record-box {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 동일한 셀 크기 설정 */
+      .record-table td {
+        width: 25%;
+        height: 50px; /* 필요한 높이 설정 */
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 style="text-align: center">환영합니다, <br /><br />이현주 회원님!</h1>
+      <br />
+      <p style="text-align: center">
+        여기는 이현주 회원님의 개인 페이지입니다.
+      </p>
+      <p style="text-align: center">
+        이현주 회원님의 pt 등록 세션은 30회이며, 최초 등록일은 2024-07-11이며
+        종료 예정일은 2024-01-10일 까지 입니다.<br /><br />
+        🏆횟수가 모두 소진되거나 종료 예정일이 지나면 세션이 종료됩니다.🥇
+      </p>
+      <br />
+      <h2 style="text-align: center">
+        <a href="/schedule.html" class="schedule-link">담당 선생님 스케줄표</a>
+        <br /><br />
+        이현주 회원님 최초 상담기록
+      </h2>
+      <div class="personal-info">
+        <table>
+          <tr>
+            <th>성별</th>
+            <td>여</td>
+          </tr>
+          <tr>
+            <th>나이</th>
+            <td>33세</td>
+          </tr>
+          <tr>
+            <th>키</th>
+            <td>cm</td>
+          </tr>
+          <tr>
+            <th>체중</th>
+            <td>kg</td>
+          </tr>
+          <tr>
+            <th>특이사항</th>
+            <td></td>
+          </tr>
+          <tr>
+            <th>운동목적</th>
+            <td></td>
+          </tr>
+          <tr>
+            <th>목표설정</th>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <br />
+      <div class="container1">
+        <h2 style="text-align: center">레슨진행현황</h2>
+        <div class="table-wrapper">
+          <div style="overflow-x: auto">
+            <table id="sessionTable">
+              <thead>
+                <tr>
+                  <th>횟수</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                  <th>8</th>
+                  <th>9</th>
+                  <th>10</th>
+                  <th>11</th>
+                  <th>12</th>
+                  <th>13</th>
+                  <th>14</th>
+                  <th>15</th>
+                  <th>16</th>
+                  <th>17</th>
+                  <th>18</th>
+                  <th>19</th>
+                  <th>20</th>
+                  <th>21</th>
+                  <th>22</th>
+                  <th>23</th>
+                  <th>24</th>
+                  <th>25</th>
+                  <th>26</th>
+                  <th>27</th>
+                  <th>28</th>
+                  <th>29</th>
+                  <th>30</th>
+                  <th>잔여</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>날짜</td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                    <!-- value="10/4" 이런식으로 수업진행한 날자표기 1회-->
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <!-- value="10/4" 이런식으로 수업진행한 날자표기 2회-->
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <!-- value="10/4" 이런식으로 수업진행한 날자표기 3회-->
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <!-- value="10/4" 이런식으로 수업진행한 날자표기 10회-->
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <!-- value="10/4" 이런식으로 수업진행한 날자표기 20회-->
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <td>
+                    <input type="text" class="session-date" value="" readonly />
+                  </td>
+                  <!-- value="10/4" 이런식으로 수업진행한 날자표기 30회-->
+                  <td id="remainingSessions">회</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <br />
+
+      <h2 style="text-align: center">레슨 일지</h2>
+      <div style="text-align: center; margin-bottom: 20px">
+        <label for="lessonFilter">회차 선택:</label>
+        <select id="lessonFilter">
+          <option value="all">모두 보기</option>
+          <option value="1">1회차</option>
+          <!-- <option value="2">2회차</option>
+          <option value="3">3회차</option> -->
+          <!-- 필요에 따라 추가적인 회차를 여기에 추가 -->
+        </select>
+      </div>
+      <div class="calendar" id="lessonLog">
+        <!-- Header -->
+        <div class="calendar-header calendar-cell" data-lesson="1">
+          <div class="lesson-box">1회차</div>
+          <div>
+            <p>등 운동</p>
+            <!-- <p>
+              <a href="/training/chin up.html" style="color: white">
+                <img
+                  src="/imgs/ezgif.com-optimize (9).gif"
+                  alt="친 업"
+                  width="80"
+                  height="80"
+                  style="border: 2px solid black"
+                /><br /><br />
+              </a>
+            </p>
+
+            <table border="1">
+              <td>친 업</td>
+            </table>
+            <table border="1">
+              <tr>
+                <th>세트</th>
+                <th>무게</th>
+                <th>횟수</th>
+              </tr>
+              <tr>
+                <td>1set</td>
+                <td>10kg</td>
+                <td>20개</td>
+              </tr>
+              <tr>
+                <td>2set</td>
+                <td>13kg</td>
+                <td>15개</td>
+              </tr>
+              <tr>
+                <td>3set</td>
+                <td>15kg</td>
+                <td>12개</td>
+              </tr>
+              <tr>
+                <td>4set</td>
+                <td>18kg</td>
+                <td>10개</td>
+              </tr>
+              <tr>
+                <td>5set</td>
+                <td>20kg</td>
+                <td>8개</td>
+              </tr>
+            </table>
+            <table border="1">
+              <td>피드백</td>
+              <td>
+                이렇궁 저렇궁 이러네저러어ㅜ어어어어어어어어<br />ㅓ어어어어어어ㅓ네김재현
+              </td>
+            </table>
+            <p>
+              <a href="/training/chin up.html" style="color: white">
+                <img
+                  src="/imgs/ezgif.com-optimize (9).gif"
+                  alt="친 업"
+                  width="80"
+                  height="80"
+                  style="border: 2px solid black"
+                /><br /><br />
+              </a>
+            </p>
+
+            <table border="1">
+              <td>친 업</td>
+            </table>
+            <table border="1">
+              <tr>
+                <th>세트</th>
+                <th>무게</th>
+                <th>횟수</th>
+              </tr>
+              <tr>
+                <td>1set</td>
+                <td>10kg</td>
+                <td>20개</td>
+              </tr>
+              <tr>
+                <td>2set</td>
+                <td>13kg</td>
+                <td>15개</td>
+              </tr>
+              <tr>
+                <td>3set</td>
+                <td>15kg</td>
+                <td>12개</td>
+              </tr>
+              <tr>
+                <td>4set</td>
+                <td>18kg</td>
+                <td>10개</td>
+              </tr>
+              <tr>
+                <td>5set</td>
+                <td>20kg</td>
+                <td>8개</td>
+              </tr>
+            </table>
+            <table border="1">
+              <td>피드백</td>
+              <td>
+                이렇궁 저렇궁 이러네저러어ㅜ어어어어어어어어<br />ㅓ어어어어어어ㅓ네김재현
+              </td>
+            </table>
+            <p>
+              <a href="/training/chin up.html" style="color: white">
+                <img
+                  src="/imgs/ezgif.com-optimize (9).gif"
+                  alt="친 업"
+                  width="80"
+                  height="80"
+                  style="border: 2px solid black"
+                /><br /><br />
+              </a>
+            </p>
+
+            <table border="1">
+              <td>친 업</td>
+            </table>
+            <table border="1">
+              <tr>
+                <th>세트</th>
+                <th>무게</th>
+                <th>횟수</th>
+              </tr>
+              <tr>
+                <td>1set</td>
+                <td>10kg</td>
+                <td>20개</td>
+              </tr>
+              <tr>
+                <td>2set</td>
+                <td>13kg</td>
+                <td>15개</td>
+              </tr>
+              <tr>
+                <td>3set</td>
+                <td>15kg</td>
+                <td>12개</td>
+              </tr>
+              <tr>
+                <td>4set</td>
+                <td>18kg</td>
+                <td>10개</td>
+              </tr>
+              <tr>
+                <td>5set</td>
+                <td>20kg</td>
+                <td>8개</td>
+              </tr>
+            </table>
+          <table border="1">
+              <td>피드백</td>
+              <td>
+                이렇궁 저렇궁 이러네저러어ㅜ어어어어어어어어<br />ㅓ어어어어어어ㅓ네김재현
+              </td>
+            </table> -->
+          </div>
+        </div>
+        <!-- 여기 까지 -->
+
+        <!-- 더 많은 회차 일지를 추가할 수 있습니다. -->
+      </div>
+      <!-- 여기부터 원알엠 -->
+      <div style="text-align: center; margin: 20px">
+        <h2>원알엠 기록</h2>
+        <div class="scroll-container">
+          <table>
+            <thead>
+              <tr>
+                <th>날짜</th>
+                <th>벤치프레스</th>
+                <th>데드리프트</th>
+                <th>스쿼트</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>10/1</td>
+                <td><div class="record-box"></div></td>
+                <td><div class="record-box"></div></td>
+                <td><div class="record-box"></div></td>
+              </tr>
+              <!-- <tr>
+                <td>10/2</td>
+                <td><div class="record-box"></div></td>
+                <td><div class="record-box"></div></td>
+                <td><div class="record-box"></div></td>
+              </tr>
+              <tr>
+                <td>10/3</td>
+                <td><div class="record-box"></div></td>
+                <td><div class="record-box"></div></td>
+                <td><div class="record-box"></div></td>
+              </tr> -->
+              <!-- 추가적인 날짜와 데이터를 원하시면 여기에 행을 추가하면 됩니다 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 여기까지 원알엠 -->
+      <div class="next-session">
+        <h3>다음 회차 예정 수업</h3>
+        <!-- <p>다음 회차 수업은 4회차입니다.</p> -->
+        <!-- <p>일정: 2024-08-01</p> -->
+        <!-- <p>예정 운동: 상체 운동</p> -->
+      </div>
+
+      <br />
+      <h2>인바디 기록</h2>
+      <div style="text-align: center; margin-bottom: 20px">
+        <label for="inbodyFilter">날짜 선택:</label>
+        <select id="inbodyFilter">
+          <option value="all">모두 보기</option>
+          <option value="2024-07-01">2024-07-01</option>
+          <option value="2024-07-10">2024-07-10</option>
+          <option value="2024-07-20">2024-07-20</option>
+          <!-- 필요에 따라 추가적인 날짜를 여기에 추가 -->
+        </select>
+      </div>
+      <div class="inbody-table" id="inbodyLog">
+        <!-- <div class="inbody-item" data-date="2024-07-01">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-01" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-10">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-10" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div> -->
+        <!-- 더 많은 인바디 기록을 추가할 수 있습니다. -->
+      </div>
+      <br />
+      <div class="modal" id="modal" style="display: none">
+        <div class="modal-content">
+          <button class="close-btn" id="closeModal">&times;</button>
+          <img src="" alt="미디어" class="modal-img" id="modalImg" />
+        </div>
+      </div>
+      <br />
+      <h2>인바디 통계</h2>
+      <div style="position: relative; height: 400px">
+        <canvas id="combinedChart"></canvas>
+      </div>
+      <script>
+        // 잔여세션표기 시트
+        function updateRemainingSessions() {
+          const totalSessions = 30; //등록세션
+          let completedSessions = 0;
+
+          document.querySelectorAll(".session-date").forEach((input) => {
+            if (input.value.trim() !== "") {
+              completedSessions++;
+            }
+          });
+
+          const remainingSessions = totalSessions - completedSessions;
+          document.getElementById("remainingSessions").textContent =
+            remainingSessions;
+        }
+
+        // 초기 로드 시 잔여 세션 업데이트
+        window.addEventListener("load", updateRemainingSessions);
+        // Chart.js 설정
+        const ctx = document.getElementById("combinedChart").getContext("2d");
+        const combinedChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: [], // "7/2", "8/3"
+            datasets: [
+              {
+                label: "체중 (kg)",
+                data: [], // 체중 데이터 55, 54, 53 이런식
+                borderColor: "rgba(75, 192, 192, 1)",
+                yAxisID: "y1",
+              },
+              {
+                label: "근육량 (kg)",
+                data: [], // 근육량 데이터 55, 54, 53 이런식
+                borderColor: "rgba(255, 99, 132, 0.6)",
+                yAxisID: "y2",
+              },
+              {
+                label: "체지방량 (kg)",
+                data: [], // 체지방량 데이터 55, 54, 53 이런식
+                borderColor: "rgba(22, 102, 255, 0.6)",
+                yAxisID: "y3",
+              },
+              {
+                label: "체지방률 (%)",
+                data: [], // 체지방률 데이터 55, 54, 53 이런식
+                borderColor: "rgba(153, 102, 255, 1)",
+                yAxisID: "y4",
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y1: {
+                type: "linear",
+                position: "left",
+                beginAtZero: true,
+              },
+              y2: {
+                type: "linear",
+                position: "right",
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+
+        // 레슨 일지 필터링
+        document
+          .getElementById("lessonFilter")
+          .addEventListener("change", function () {
+            const selectedValue = this.value;
+            const lessonLog = document.getElementById("lessonLog");
+            const lessons = lessonLog.querySelectorAll(".calendar-header");
+
+            lessons.forEach((lesson) => {
+              if (
+                selectedValue === "all" ||
+                lesson.getAttribute("data-lesson") === selectedValue
+              ) {
+                lesson.style.display = "block";
+              } else {
+                lesson.style.display = "none";
+              }
+            });
+          });
+
+        // 인바디 기록 필터링
+        document
+          .getElementById("inbodyFilter")
+          .addEventListener("change", function () {
+            const selectedDate = this.value;
+            const inbodyLog = document.getElementById("inbodyLog");
+            const inbodyItems = inbodyLog.querySelectorAll(".inbody-item");
+
+            inbodyItems.forEach((item) => {
+              if (
+                selectedDate === "all" ||
+                item.getAttribute("data-date") === selectedDate
+              ) {
+                item.style.display = "block";
+              } else {
+                item.style.display = "none";
+              }
+            });
+          });
+
+        // 이미지 클릭 시 모달 열기
+        document.querySelectorAll(".inbody-table img").forEach((img) => {
+          img.addEventListener("click", function () {
+            document.getElementById("modalImg").src = this.src;
+            document.getElementById("modal").style.display = "flex";
+          });
+        });
+
+        // 모달 닫기
+        document
+          .getElementById("closeModal")
+          .addEventListener("click", function () {
+            document.getElementById("modal").style.display = "none";
+          });
+
+        window.addEventListener("click", function (event) {
+          if (event.target === document.getElementById("modal")) {
+            document.getElementById("modal").style.display = "none";
+          }
+        });
+      </script>
+    </div>
+  </body>
+</html>

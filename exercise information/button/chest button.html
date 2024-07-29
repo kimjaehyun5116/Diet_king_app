@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
+    <ins
+      class="kakao_ad_area"
+      style="display: block; width: 320px; height: 100px; margin: 0 auto"
+      data-ad-unit="DAN-ZJkIQC62N3hyyDUd"
+      data-ad-width="320"
+      data-ad-height="100"
+    ></ins>
+    <script
+      type="text/javascript"
+      src="//t1.daumcdn.net/kas/static/ba.min.js"
+      async
+    ></script>
+    <title>운동 종류</title>
+    <style>
+      /* 기본 스타일 */
+      html {
+        height: 120%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        margin-top: 20%;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: whitesmoke;
+        width: 90vw; /* 화면 너비의 90% */
+        max-width: 1200px; /* 최대 너비 1200px */
+        border-radius: 30px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3),
+          0 12px 32px rgba(0, 0, 0, 0.3);
+        overflow-y: auto; /* 세로 스크롤이 필요할 경우 추가 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px; /* 내부 여백 추가 */
+        margin-top: 30%;
+      }
+
+      h1 {
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* 버튼 사이의 간격 추가 */
+      }
+
+      .exercise-button {
+        width: 300px;
+        height: 300px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: transparent; /* 버튼 배경색 투명 */
+      }
+
+      /* 이미지 파일 경로를 변경해야 합니다. */
+      #button1 {
+        background-image: url("/img/dumbell.png");
+      }
+      #button2 {
+        background-image: url("/img/barbell.png");
+      }
+      #button3 {
+        background-image: url("/img/machin.png");
+      }
+      #button4 {
+        background-image: url("/img/smis.png");
+      }
+      #button5 {
+        background-image: url("/img/cable.png");
+        margin-bottom: 20px;
+      }
+
+      /* 미디어 쿼리: 화면 크기가 768px 이하일 때 */
+      @media (max-width: 768px) {
+        body {
+          width: 90%;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3),
+            0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .exercise-button {
+          width: 150px;
+          height: 150px;
+        }
+      }
+
+      /* 미디어 쿼리: 화면 크기가 480px 이하일 때 */
+      /* 미디어 쿼리: 화면 크기가 480px 이하일 때 */
+      @media (max-width: 480px) {
+        html {
+          margin-top: 80%;
+        }
+        body {
+          width: 100%;
+          margin: 10px; /* 상단과 하단 여백 추가 */
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
+            0 6px 18px rgba(0, 0, 0, 0.3);
+          padding: 10px; /* 내부 여백 조정 */
+          margin-top: 15%; /* 상단 여백을 15%로 조정 */
+        }
+
+        h1 {
+          margin-top: 30px;
+        }
+
+        .exercise-button {
+          width: 200px;
+          height: 200px;
+        }
+
+        .button-container {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px; /* 버튼 사이의 간격 추가 */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>운동 종류</h1>
+    <div class="button-container">
+      <button
+        id="button1"
+        class="exercise-button"
+        onclick="location.href='/exercise information/chest/dumbel chest exercise.html'"
+      ></button>
+      <button
+        id="button2"
+        class="exercise-button"
+        onclick="location.href='/exercise information/chest/barbel chest exercise.html'"
+      ></button>
+      <button
+        id="button3"
+        class="exercise-button"
+        onclick="location.href='/exercise information/chest/machin chest exercise.html'"
+      ></button>
+      <button
+        id="button4"
+        class="exercise-button"
+        onclick="location.href='/exercise information/chest/smis chest exercise.html'"
+      ></button>
+      <button
+        id="button5"
+        class="exercise-button"
+        onclick="location.href='/exercise information/chest/cable chest exercise.html'"
+      ></button>
+    </div>
+    <ins
+      class="kakao_ad_area"
+      style="display: none"
+      data-ad-unit="DAN-Mik0XMBalpnLAA0G"
+      data-ad-width="320"
+      data-ad-height="100"
+    ></ins>
+    <script
+      type="text/javascript"
+      src="//t1.daumcdn.net/kas/static/ba.min.js"
+      async
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="MacJae" />
+    <meta name="keywords" content="다킹" />
+    <meta name="description" content="다킹" />
+
+    <!-- sns share -->
+    <meta property="og:url" content="https://diet-king.netlify.app/" />
+    <meta property="og:title" content="다킹" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/main.png" />
+    <meta property="og:description" content="다킹" />
+
+    <!--favicon-->
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
+    <title>Diet-King</title>
+    <link rel="stylesheet" href="css/default2.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <a href="index.html">
+          <img src="img/favicon.ico" alt="Diet-King Logo" />
+        </a>
+      </div>
+
+      <nav id="nav">
+        <ul>
+          <li>
+            <a href="#">컨텐츠</a>
+            <ul class="submenu">
+              <li><a href="weppage/contentspage1.html">식단만들기</a></li>
+              <li><a href="weppage/contentspage2.html">운동정보보기</a></li>
+              <li>
+                <a href="weppage/contentspage3.html">레벨별 운동 프로그램</a>
+              </li>
+              <li>
+                <a href="weppage/reviewpage.html">용품 & 식품 & 보충제 리뷰</a>
+              </li>
+              <li>
+                <a href="weppage/contentspage4.html">가까운 헬스장 찾기</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="/weppage/appdownpage.html">앱 다운로드</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="container">
+      <main>
+        <section class="promo">
+          <div class="slideshow-container">
+            <div class="slide">
+              <img src="img/1.png" alt="Promo 1" />
+            </div>
+            <div class="slide">
+              <img src="img/2.png" alt="Promo 2" />
+            </div>
+            <div class="slide">
+              <img src="img/3.png" alt="Promo 3" />
+            </div>
+            <div class="slide">
+              <img src="img/8.png" alt="Promo 4" />
+            </div>
+
+            <!-- Previous and Next buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+          </div>
+
+          <!-- Dots for pagination -->
+          <div class="dots">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+          </div>
+        </section>
+      </main>
+    </div>
+    <section class="rewards">
+      <div class="container">
+        <h2>Diet-King</h2>
+        <a href="mailto:ibns789@gmail.com">문의하기</a>
+      </div>
+    </section>
+    <script src="js/slideshow.js"></script>
+  </body>
+</html>

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="MacJae" />
+    <meta name="keywords" content="다킹" />
+    <meta name="description" content="다킹" />
+
+    <!-- sns share -->
+    <meta property="og:url" content="https://diet-king.netlify.app/" />
+    <meta property="og:title" content="다킹" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/main.png" />
+    <meta property="og:description" content="다킹" />
+
+    <!--favicon-->
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
+    <title>Diet-King</title>
+    <link rel="stylesheet" href="/css/review.css" />
+    <style>
+      /* 기본 스타일 설정 */
+      body {
+        font-family: "Avenir", "Arial", "Georgia", sans-serif;
+        background-color: rgb(31, 30, 30);
+        font-size: 16px;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white; /* 모든 글씨를 하얀색으로 설정 */
+      }
+      .rating {
+        font-size: 2em; /* 별의 크기 조절 */
+        color: gold; /* 채워진 별의 색상 */
+        display: inline-flex;
+      }
+
+      .star {
+        display: inline-block;
+        position: relative;
+      }
+
+      .star.full {
+        color: gold; /* 채워진 별의 색상 */
+      }
+
+      .star.half {
+        position: relative;
+        color: gold; /* 반쪽 별의 채워진 부분 색상 */
+      }
+
+      .star.half::after {
+        content: "\2605"; /* ★ (별) */
+        color: lightgray; /* 반쪽 별의 비어 있는 부분 색상 */
+        position: absolute;
+        width: 50%;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+      }
+
+      .star.empty {
+        color: lightgray; /* 빈 별의 색상 */
+      }
+
+      header {
+        width: 100%;
+        background-color: black;
+        color: black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        height: 150px;
+        box-sizing: border-box;
+        position: relative;
+      }
+
+      .logo {
+        margin-right: 100px;
+      }
+
+      .logo img {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+      }
+
+      nav ul li {
+        margin: 0 30px;
+        position: relative;
+      }
+
+      nav ul li a {
+        color: whitesmoke;
+        text-decoration: none;
+        display: block;
+        padding: 10px 0;
+      }
+
+      nav ul li:hover a {
+        color: #006341;
+      }
+
+      nav ul .submenu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: whitesmoke;
+        padding: 10px 0;
+        width: 200px;
+        z-index: 1000;
+      }
+
+      nav ul .submenu li {
+        margin: 0;
+      }
+
+      nav ul .submenu li a {
+        padding: 10px 20px;
+        color: black;
+      }
+
+      nav ul li:hover .submenu {
+        display: block;
+      }
+
+      .container {
+        width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      main {
+        background-color: black;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .supplement-intro,
+      .recommended-combination {
+        margin-bottom: 40px;
+      }
+
+      .supplement-intro img {
+        display: block;
+        margin: 0 auto;
+        width: 50%;
+        height: auto;
+        border-radius: 10px;
+      }
+
+      .supplement-description {
+        color: whitesmoke;
+        font-size: 1.2em;
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #444;
+        padding: 10px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #333;
+        color: whitesmoke;
+      }
+
+      td {
+        background-color: #222;
+        color: whitesmoke;
+      }
+
+      .purchase-button {
+        display: block;
+        width: 200px;
+        margin: 30px auto;
+        padding: 10px;
+        background-color: #006341;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.2em;
+      }
+
+      .purchase-button:hover {
+        background-color: #004d26;
+      }
+
+      .disclaimer {
+        color: whitesmoke;
+        text-align: center;
+        font-size: 0.9em;
+        margin-top: 10px;
+      }
+
+      .rewards {
+        background-color: black;
+        padding: 40px 0;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0;
+      }
+
+      .rewards h2 {
+        color: whitesmoke;
+      }
+
+      .rewards a {
+        color: whitesmoke;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      footer {
+        background-color: #333333;
+        text-align: center;
+        padding: 10px 0;
+        width: 100%;
+        position: relative;
+        bottom: 0;
+      }
+
+      footer p {
+        color: whitesmoke;
+      }
+
+      .rating {
+        color: #ffd700; /* 노란색 별 */
+      }
+
+      .recommended-combination {
+        text-align: center;
+        background-color: #222;
+        padding: 20px;
+        border-radius: 10px;
+        position: relative;
+      }
+
+      .slider {
+        position: relative;
+        width: 150px; /* 슬라이더의 너비를 고정값으로 설정 */
+        height: 150px; /* 슬라이더의 높이도 고정값으로 설정 */
+        margin: 0 auto; /* 중앙 정렬 */
+        overflow: hidden; /* 이미지가 컨테이너를 넘지 않도록 설정 */
+      }
+
+      .slides {
+        display: flex;
+        transition: transform 0.5s ease;
+        width: 100%;
+      }
+
+      .slide-item {
+        flex-shrink: 0;
+        width: 100%; /* 슬라이드 아이템의 너비를 슬라이더와 맞춤 */
+        height: 100%; /* 슬라이드 아이템의 높이를 슬라이더와 맞춤 */
+      }
+
+      .slide-item img {
+        width: 100%; /* 이미지의 너비를 슬라이드 아이템에 맞춤 */
+        height: auto; /* 이미지의 비율을 유지 */
+        display: block; /* 이미지 주변의 여백 제거 */
+      }
+
+      .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1000;
+        font-size: 1.5em; /* 화살표의 크기를 설정합니다. */
+      }
+
+      .arrow.left {
+        left: 0; /* 좌측 화살표를 슬라이더의 왼쪽 끝에 위치 */
+      }
+
+      .arrow.right {
+        right: 0; /* 우측 화살표를 슬라이더의 오른쪽 끝에 위치 */
+      }
+
+      .recommended-description {
+        color: whitesmoke;
+        font-size: 1.2em;
+        margin-top: 15px;
+      }
+
+      .recommended-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #006341;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.2em;
+      }
+
+      .recommended-button:hover {
+        background-color: #004d26;
+      }
+
+      /* 모바일 화면용 스타일 */
+      @media (max-width: 600px) {
+        body {
+          font-size: 14px;
+        }
+
+        header {
+          flex-direction: column;
+          align-items: center; /* 중앙 정렬로 변경 */
+          height: auto;
+        }
+
+        .logo {
+          margin: 0 auto 20px auto;
+        }
+
+        .logo img {
+          height: 50px;
+          width: 50px;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: center; /* 중앙 정렬로 변경 */
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          text-align: center;
+        }
+
+        nav ul li {
+          margin: 10px 0;
+          width: 100%;
+        }
+
+        nav ul li a {
+          font-size: 14px;
+          padding: 10px;
+        }
+
+        nav ul .submenu {
+          width: 100%;
+          left: 0;
+          transform: none;
+          position: relative;
+          text-align: center;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가로 가독성 향상 */
+        }
+
+        .container {
+          width: 90%;
+          padding: 10px;
+        }
+
+        .supplement-intro img {
+          width: 100%;
+        }
+
+        .purchase-button {
+          width: 100%;
+        }
+
+        table th,
+        table td {
+          font-size: 0.8em;
+          padding: 5px;
+        }
+
+        .recommended-combination {
+          padding: 10px;
+        }
+
+        .slider {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      /* 중간 화면용 스타일 (태블릿) */
+      @media (max-width: 768px) {
+        .container {
+          width: 100%;
+          padding: 10px;
+        }
+
+        header {
+          flex-direction: column;
+          text-align: center;
+          padding: 10px;
+          height: auto;
+        }
+
+        .logo {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+
+        .logo img {
+          height: 50px;
+          width: 50px;
+        }
+
+        nav ul {
+          flex-direction: column;
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          text-align: center;
+        }
+
+        nav ul li {
+          margin: 5px 0;
+          position: relative;
+          width: 100%;
+        }
+
+        nav ul li a {
+          font-size: 14px;
+          display: block;
+          padding: 10px;
+        }
+
+        nav ul .submenu {
+          width: 100%;
+          left: 0;
+          transform: none;
+          position: relative;
+          text-align: center;
+        }
+
+        .promo {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .promo img {
+          width: 100%;
+        }
+
+        .slide img {
+          width: 100%;
+        }
+
+        .prev,
+        .next {
+          padding: 10px;
+          font-size: 24px;
+        }
+        .purchase-button {
+          width: 100%; /* 모바일 화면에서 버튼 너비를 100%로 설정 */
+          padding: 12px; /* 패딩 조정 */
+          font-size: 1em; /* 폰트 사이즈 조정 */
+          box-sizing: border-box; /* 너비와 패딩을 계산에 포함 */
+        }
+      }
+
+      /* 480px 이하의 모바일 화면용 추가 스타일 */
+      @media (max-width: 480px) {
+        body {
+          font-size: 14px;
+        }
+
+        header {
+          flex-direction: column;
+          align-items: center; /* 중앙 정렬로 변경 */
+          height: auto;
+          padding: 10px;
+        }
+
+        .logo {
+          margin: 0 auto 20px auto;
+        }
+
+        .logo img {
+          height: 50px;
+          width: 50px;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: center; /* 중앙 정렬로 변경 */
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          text-align: center;
+        }
+
+        nav ul li {
+          margin: 10px 0;
+          width: 100%;
+        }
+
+        nav ul li a {
+          font-size: 14px;
+          padding: 10px;
+        }
+
+        nav ul .submenu {
+          width: 100%;
+          left: 0;
+          transform: none;
+          position: relative;
+          text-align: center;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가로 가독성 향상 */
+        }
+
+        .container {
+          width: 90%;
+          padding: 10px;
+        }
+
+        .supplement-intro img {
+          width: 100%;
+        }
+
+        .purchase-button {
+          width: 100%;
+        }
+
+        table th,
+        table td {
+          font-size: 0.8em;
+          padding: 5px;
+        }
+
+        .recommended-combination {
+          padding: 10px;
+        }
+
+        .slider {
+          width: 100%;
+          height: auto;
+        }
+        .purchase-button {
+          width: 100%; /* 모바일 화면에서 버튼 너비를 100%로 설정 */
+          padding: 10px; /* 패딩 조정 */
+          font-size: 0.9em; /* 폰트 사이즈 조정 */
+          box-sizing: border-box; /* 너비와 패딩을 계산에 포함 */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <script src="https://ads-partners.coupang.com/g.js"></script>
+      <script>
+        new PartnersCoupang.G({
+          id: 795065,
+          template: "carousel",
+          trackingCode: "AF7255892",
+          width: "320",
+          height: "100",
+          tsource: "",
+        });
+      </script>
+      <div class="logo">
+        <a href="/index.html">
+          <img src="/img/favicon.ico" alt="Diet-King Logo" />
+        </a>
+      </div>
+
+      <nav id="nav">
+        <ul>
+          <li>
+            <a href="#">컨텐츠</a>
+            <ul class="submenu">
+              <li><a href="/weppage/contentspage1.html">식단만들기</a></li>
+              <li><a href="/weppage/contentspage2.html">운동리뷰 보기</a></li>
+              <li>
+                <a href="/weppage/contentspage3.html">레벨별 운동 프로그램</a>
+              </li>
+              <li>
+                <a href="/weppage/reviewpage.html">용품 & 식품 & 보충제 리뷰</a>
+              </li>
+              <li>
+                <a href="/weppage/contentspage4.html">가까운 헬스장 찾기</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="/weppage/appdownpage.html">앱 다운로드</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="container">
+      <main>
+        <section class="supplement-intro">
+          <img src="/img/xtend graef.jpeg" alt="엑스텐드 BCAA" />
+          <div class="supplement-description">
+            <h1>
+              사이베이션 X텐드 BCAAs 그레이프, 392g
+              <span class="rating">★★★★★</span>
+            </h1>
+            <table>
+              <thead>
+                <tr>
+                  <th>항목</th>
+                  <th>설명</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>근육 회복</td>
+                  <td>
+                    엑스텐드 BCAA는 운동 후 빠른 근육 회복을 돕습니다. BCAA
+                    (분지쇄 아미노산)은 근육의 회복을 지원하고 근육 손상을
+                    줄이는 데 효과적입니다.
+                  </td>
+                </tr>
+                <tr>
+                  <td>운동 성과 향상</td>
+                  <td>
+                    BCAA는 운동 성과를 향상시키고 피로를 줄이는 데 도움을
+                    줍니다. 운동 전후에 섭취하면 운동 중 에너지를 제공하고 운동
+                    후 회복을 촉진합니다.
+                  </td>
+                </tr>
+                <tr>
+                  <td>면역 기능 지원</td>
+                  <td>
+                    BCAA는 면역 체계의 기능을 지원하며, 운동으로 인한 스트레스를
+                    완화하는 데 도움이 됩니다.
+                  </td>
+                </tr>
+                <tr>
+                  <td>사용 방법과 복용량</td>
+                  <td>
+                    운동 전후에 1회 10g을 물 또는 음료에 타서 섭취하는 것이
+                    좋습니다. 개인의 건강 상태와 운동 강도에 따라 조절할 수
+                    있습니다.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <a href="https://link.coupang.com/a/bLhMmy" class="purchase-button"
+            >구매하러 가기</a
+          >
+          <div class="disclaimer">
+            <p>
+              "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의
+              수수료를 제공받습니다."
+            </p>
+          </div>
+          <!-- Recommended Combination Section -->
+          <section class="recommended-combination">
+            <h2>함께 섭취하면 좋은 추천 조합</h2>
+            <button class="arrow left">&#9664;</button>
+            <div class="slider">
+              <div class="slides">
+                <div class="slide-item">
+                  <a href="/weppage/glutamin review.html">
+                    <img src="/img/glutamine.jpg" alt="추천 조합 제품 1" />
+                  </a>
+                </div>
+                <div class="slide-item">
+                  <a href="/weppage/sintasix reiew.html">
+                    <img src="/img/sinta.jpg" alt="추천 조합 제품 2" />
+                  </a>
+                </div>
+                <div class="slide-item">
+                  <a href="https://example.com/product3">
+                    <img src="/img/protein.jpg" alt="추천 조합 제품 3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <button class="arrow right">&#9654;</button>
+            <div class="recommended-description">
+              <p>
+                이 제품과 함께 섭취하면 효과를 극대화할 수 있습니다. 그림을
+                클릭하면 제품 정보화면으로 이동합니다.
+              </p>
+            </div>
+            <iframe
+              src="https://coupa.ng/cfUaxW"
+              width="100%"
+              height="44"
+              frameborder="0"
+              scrolling="no"
+              referrerpolicy="unsafe-url"
+              browsingtopics
+            ></iframe>
+            <p style="color: white; text-align: center">
+              "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의
+              수수료를 제공받습니다."
+            </p>
+          </section>
+        </section>
+      </main>
+    </div>
+    <section class="rewards">
+      <div class="container">
+        <h2>Diet-King</h2>
+        <a href="mailto:ibns789@gmail.com">문의하기</a>
+      </div>
+    </section>
+    <footer>
+      <p>&copy; 2024 Diet-King. All rights reserved.</p>
+    </footer>
+    <script>
+      // JavaScript for the slider
+      document.addEventListener("DOMContentLoaded", function () {
+        const slides = document.querySelector(".slides");
+        const slideItems = document.querySelectorAll(".slide-item");
+        let currentIndex = 0;
+        const totalSlides = slideItems.length;
+        let slideWidth = slides.clientWidth;
+
+        function showSlide(index) {
+          if (index < 0) index = totalSlides - 1;
+          if (index >= totalSlides) index = 0;
+          slides.style.transform = `translateX(-${index * slideWidth}px)`;
+          currentIndex = index;
+        }
+
+        document.querySelector(".arrow.left").addEventListener("click", () => {
+          showSlide(currentIndex - 1);
+        });
+
+        document.querySelector(".arrow.right").addEventListener("click", () => {
+          showSlide(currentIndex + 1);
+        });
+
+        window.addEventListener("resize", () => {
+          slideWidth = slides.clientWidth;
+          showSlide(currentIndex);
+        });
+      });
+    </script>
+  </body>
+</html>

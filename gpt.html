@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="MacJae" />
+    <meta name="keywords" content="자동 식단 만들기" />
+    <meta name="description" content="자동 식단 만들기" />
+    <!-- sns share -->
+    <meta property="og:url" content="https://diet-king.netlify.app/" />
+    <meta property="og:title" content="다킹" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="img/main.png" />
+    <meta property="og:description" content="자동 식단 만들기" />
+    <!--favicon-->
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="img/favicon.ico" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="/css/default.css" />
+    <title>다킹</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .message {
+        border-top: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 5px;
+        background-color: #e6e6e6;
+      }
+      #chat-container {
+        width: 400px;
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+      }
+      #chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px;
+        display: flex;
+        flex-direction: column-reverse;
+      }
+      #user-input {
+        display: flex;
+        padding: 10px;
+      }
+      #user-input input {
+        flex: 1;
+        padding: 10px;
+        outline: none;
+      }
+      #user-input button {
+        border: none;
+        background-color: #1e88e5;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chat-container">
+      <div id="chat-messages"></div>
+      <div id="user-input">
+        <input type="text" placeholder="메시지를 입력하세요..." />
+        <button>전송</button>
+      </div>
+    </div>
+    <script src="/src/chatbot.js"></script>
+  </body>
+</html>

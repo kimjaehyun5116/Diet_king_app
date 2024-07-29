@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="MacJae" />
+    <meta name="keywords" content="다킹" />
+    <meta name="description" content="다킹" />
+
+    <!-- sns share -->
+    <meta property="og:url" content="https://diet-king.netlify.app/" />
+    <meta property="og:title" content="다킹" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/main.png" />
+    <meta property="og:description" content="다킹" />
+
+    <!--favicon-->
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
+    <title>Diet-King</title>
+    <link rel="stylesheet" href="/css/review.css" />
+  </head>
+  <script src="https://ads-partners.coupang.com/g.js"></script>
+  <body>
+    <header>
+      <div class="logo">
+        <a href="/index.html">
+          <img src="/img/favicon.ico" alt="Diet-King Logo" />
+        </a>
+      </div>
+
+      <nav id="nav">
+        <ul>
+          <li>
+            <a href="#">컨텐츠</a>
+            <ul class="submenu">
+              <li><a href="/weppage/contentspage1.html">식단만들기</a></li>
+              <li><a href="/weppage/contentspage2.html">운동리뷰 보기</a></li>
+              <li>
+                <a href="/weppage/contentspage3.html">레벨별 운동 프로그램</a>
+              </li>
+              <li>
+                <a href="/weppage/reviewpage.html">용품 & 식품 & 보충제 리뷰</a>
+              </li>
+              <li>
+                <a href="/weppage/contentspage4.html">가까운 헬스장 찾기</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="/weppage/appdownpage.html">앱 다운로드</a></li>
+        </ul>
+      </nav>
+    </header>
+    <script src="https://ads-partners.coupang.com/g.js"></script>
+    <script>
+      new PartnersCoupang.G({
+        id: 795065,
+        template: "carousel",
+        trackingCode: "AF7255892",
+        width: "320",
+        height: "100",
+        tsource: "",
+      });
+    </script>
+    <div class="container">
+      <main>
+        <section class="filters">
+          <button onclick="filterItems('all')">전체</button>
+          <button onclick="filterItems('protein')">보충제</button>
+          <button onclick="filterItems('vitamin')">비타민</button>
+          <button onclick="filterItems('amino')">아미노산</button>
+          <button onclick="filterItems('food')">식품</button>
+          <button onclick="filterItems('Lunch box')">도시락</button>
+        </section>
+        <section class="supplements">
+          <div class="supplement-container">
+            <!-- Supplement Items -->
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/glutamine.jpg" alt="Glutamine" />
+              <div class="name">
+                뉴트리코스트 대용량 헬스보충제 무맛 L 글루타민, 300g
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="glutamin review.html" class="info-button">리뷰 보기</a>
+              </div>
+            </div>
+            <div class="supplement-item" data-group="vitamin">
+              <img src="/img/refordayman'spack.jpeg" alt="Vitamin" />
+              <div class="name">
+                리포데이 올인원 맨즈팩 종합비타민 30개입 1일 1포 한포영양제, 69g
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="refordayman'spack.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="vitamin">
+              <img src="/img/refordayumen.jpeg" alt="Vitamin" />
+              <div class="name">
+                리포데이 올인원 우먼팩 종합비타민 30개입 1일 1포 한포영양제,
+                68.7g
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="refordayumenpack.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="protein">
+              <img src="/img/sinta.jpg" alt="Sinta" />
+              <div class="name">
+                비에스엔 신타-6 프로틴 파우더 드링크 믹스 단백질 보충제 초콜릿
+                케이크 배터, 2.27kg
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/sintasix reiew.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/xtend graef.jpeg" alt="Xtend" />
+              <div class="name">사이베이션 X텐드 BCAAs 그레이프, 392g</div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/xtendgraefpage.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/xtendstrobarry.jpeg" alt="Xtend" />
+              <div class="name">사이베이션 X텐드 BCAAs 스트로베리, 390g</div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/xtendstrobarypage.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/xtendlemon.jpeg" alt="Xtend" />
+              <div class="name">사이베이션 X텐드 BCAAs 레몬라임, 405g</div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/xtendlemonpage.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/xtendbloodorang.jpeg" alt="Xtend" />
+              <div class="name">
+                싸이베이션 엑스텐드 BCAAs 블러드 오렌지, 420g
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/xtendbloodorangpage.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/xtendfreedomice.jpeg" alt="Xtend" />
+              <div class="name">
+                Xtend 더 오리지널 7g BCAA 프리덤 아이스, 420g,
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/xtendfreedomicepage.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/xtendpunch.jpeg" alt="Xtend" />
+              <div class="name">
+                Xtend 오리지널 7g BCAA 녹아웃 프루트 펀치, 396g
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/xtendpunchpagee.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/xtendwathermellon.jpeg" alt="Xtend" />
+              <div class="name">
+                엑스텐드 더 오리지널 7g BCAA 워터멜론 익스플로전, 375g
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a
+                  href="/weppage/xtendwathermellonpage.html"
+                  class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="food">
+              <img src="/img/hudack.png" alt="heodack" />
+              <div class="name">허닭PICK 소스 통 닭가슴살 4종 혼합, 100g</div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/heodack reiew.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="food">
+              <img src="/img/gomgombuldack.png" alt="heodack" />
+              <div class="name">곰곰 통살 닭가슴살 100g 불닭맛</div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/gomgombuldack.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="protein">
+              <img src="/img/Callobai Isolate.png" alt="callobai" />
+              <div class="name">
+                칼로바이 퍼펙트 파워쉐이크 아이솔레이트 초코맛, 1.89kg
+              </div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star empty">&#9734;</span> -->
+                <!-- <span class="star half">&#9733;</span> -->
+              </span>
+              <div class="actions">
+                <a href="/weppage/Callobai Isolate.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="Lunch box">
+              <img src="/img/gomgomdosirock.png" alt="callobai" />
+              <div class="name">곰곰 샐러드 도시락</div>
+              <span class="rating">
+                <span class="star full">평점 &#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <span class="star full">&#9733;</span>
+                <!-- <span class="star full">&#9733;</span> -->
+                <!-- <span class="star empty">&#9734;</span> -->
+                <span class="star half">&#9733;</span>
+              </span>
+              <div class="actions">
+                <a href="/weppage/gomgomdosirock.html" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <!-- <div class="supplement-item" data-group="amino">
+              <img src="/img/omega3.jpg" alt="Omega 3" />
+              <div class="name">오메가 3</div>
+              <div class="rating">평점 ★★★★☆</div>
+              <div class="actions">
+                <a href="https://example.com/info5" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="vitamin">
+              <img src="/img/bitamind.jpg" alt="Vitamin D" />
+              <div class="name">비타민 D</div>
+              <div class="rating">평점 ★★★☆☆</div>
+              <div class="actions">
+                <a href="https://example.com/info6" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="vitamin">
+              <img src="/img/biotin.jpg" alt="Biotin" />
+              <div class="name">비오틴</div>
+              <div class="rating">평점 ★★★★★</div>
+              <div class="actions">
+                <a href="https://example.com/info7" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="amino">
+              <img src="/img/cla.jpg" alt="CLA" />
+              <div class="name">CLA</div>
+              <div class="rating">평점 ★★★☆☆</div>
+              <div class="actions">
+                <a href="https://example.com/info8" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+      
+            <div class="supplement-item" data-group="new">
+              <img src="/img/newitem1.jpg" alt="New Item 1" />
+              <div class="name">신제품 1</div>
+              <div class="rating">평점 ★★★☆☆</div>
+              <div class="actions">
+                <a href="https://example.com/info9" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="new">
+              <img src="/img/newitem2.jpg" alt="New Item 2" />
+              <div class="name">신제품 2</div>
+              <div class="rating">평점 ★★★★☆</div>
+              <div class="actions">
+                <a href="https://example.com/info10" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="new">
+              <img src="/img/newitem3.jpg" alt="New Item 3" />
+              <div class="name">신제품 3</div>
+              <div class="rating">평점 ★★★★★</div>
+              <div class="actions">
+                <a href="https://example.com/info11" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="new">
+              <img src="/img/newitem4.jpg" alt="New Item 4" />
+              <div class="name">신제품 4</div>
+              <div class="rating">평점 ★★★☆☆</div>
+              <div class="actions">
+                <a href="https://example.com/info12" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="new">
+              <img src="/img/newitem5.jpg" alt="New Item 5" />
+              <div class="name">신제품 5</div>
+              <div class="rating">평점 ★★★★☆</div>
+              <div class="actions">
+                <a href="https://example.com/info13" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="new">
+              <img src="/img/newitem6.jpg" alt="New Item 6" />
+              <div class="name">신제품 6</div>
+              <div class="rating">평점 ★★★☆☆</div>
+              <div class="actions">
+                <a href="https://example.com/info14" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="new">
+              <img src="/img/newitem7.jpg" alt="New Item 7" />
+              <div class="name">신제품 7</div>
+              <div class="rating">평점 ★★★★★</div>
+              <div class="actions">
+                <a href="https://example.com/info15" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div>
+            <div class="supplement-item" data-group="new">
+              <img src="/img/newitem8.jpg" alt="New Item 8" />
+              <div class="name">신제품 8</div>
+              <div class="rating">평점 ★★★☆☆</div>
+              <div class="actions">
+                <a href="https://example.com/info16" class="info-button"
+                  >리뷰 보기</a
+                >
+              </div>
+            </div> -->
+          </div>
+          <iframe
+            src="https://coupa.ng/cfUaxW"
+            width="100%"
+            height="44"
+            frameborder="0"
+            scrolling="no"
+            referrerpolicy="unsafe-url"
+            browsingtopics
+          ></iframe>
+          <p style="color: white; text-align: center">
+            "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의
+            수수료를 제공받습니다."
+          </p>
+        </section>
+        <section class="pagination">
+          <button class="page-button" id="prevPage">이전</button>
+          <span id="pageNumbers"></span>
+          <button class="page-button" id="nextPage">다음</button>
+        </section>
+      </main>
+    </div>
+    <section class="rewards">
+      <div class="container">
+        <h2>Diet-King</h2>
+        <a href="mailto:ibns789@gmail.com">문의하기</a>
+      </div>
+    </section>
+    <script src="/js/review.js"></script>
+  </body>
+</html>

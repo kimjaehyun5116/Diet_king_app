@@ -1,0 +1,255 @@
+body {
+  font-family: "Avenir", "Arial", "Georgia", sans-serif;
+  background-color: rgb(31, 30, 30);
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  background-color: black;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 150px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.logo {
+  margin-right: 100px;
+}
+
+.logo img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 30px;
+  position: relative;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px 0;
+}
+
+nav ul li:hover a {
+  color: #006341;
+}
+
+nav ul .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: whitesmoke;
+  padding: 10px 0;
+  width: 200px;
+  z-index: 1000;
+}
+
+nav ul .submenu li {
+  margin: 0;
+}
+
+nav ul .submenu li a {
+  padding: 10px 20px;
+  color: black;
+}
+
+nav ul li:hover .submenu {
+  display: block;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+main {
+  background-color: black;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.promo {
+  max-width: 100%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.promo img {
+  width: 100%; /* 이미지 너비를 100%로 설정하여 화면에 맞게 조정 */
+  height: auto; /* 높이는 자동으로 조정되도록 설정 */
+  display: block; /* 기본적으로 block 요소로 표시하여 여백을 제거 */
+}
+
+.rewards {
+  background-color: black;
+  padding: 40px 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.rewards h2 {
+  color: whitesmoke;
+}
+
+.rewards a {
+  color: whitesmoke;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+footer {
+  background-color: #333333;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
+footer p {
+  color: whitesmoke;
+}
+.create-diet-button {
+  display: inline-block;
+  background-color: #f9fafa;
+  color: black;
+  font-size: 18px;
+  padding: 15px 30px;
+  margin: 20px 0;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.create-diet-button:hover {
+  background-color: #004d28;
+  transform: scale(1.05);
+}
+
+.create-diet-button:active {
+  background-color: #003d21;
+  transform: scale(1);
+}
+
+/* Media queries for tablet devices */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    height: auto;
+  }
+
+  .logo {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .logo img {
+    height: 70px;
+    width: 70px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  nav ul li {
+    margin: 5px 0;
+    text-align: center;
+  }
+
+  nav ul .submenu {
+    position: relative;
+    left: 0;
+    width: 100%;
+  }
+}
+
+/* Media queries for mobile devices */
+@media (max-width: 480px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    height: auto;
+  }
+
+  .logo {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .logo img {
+    height: 50px;
+    width: 50px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  nav ul li {
+    margin: 5px 0;
+    text-align: center;
+  }
+
+  nav ul li a {
+    font-size: 14px;
+  }
+
+  .promo img {
+    width: 100%; /* 이미지 너비를 100%로 설정하여 화면에 맞게 조정 */
+    height: auto; /* 높이는 자동으로 조정되도록 설정 */
+  }
+
+  .rewards h2 {
+    font-size: 20px;
+  }
+
+  .rewards a {
+    font-size: 14px;
+  }
+}

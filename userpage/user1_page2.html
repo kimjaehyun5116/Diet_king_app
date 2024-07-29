@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
+    <title>ooo회원님 개인 페이지</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 50px; /* 페이지 하단에 마진 추가 */
+      }
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-gap: 10px;
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+        overflow-x: auto;
+      }
+      .calendar-header {
+        font-weight: bold;
+        border: 1px solid #ccc;
+        padding: 10px;
+        white-space: nowrap;
+      }
+      .calendar-cell {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+      @media only screen and (max-width: 480px) {
+        .calendar {
+          grid-template-columns: repeat(1, 1fr);
+          overflow-x: scroll;
+        }
+        .inbody-table {
+          grid-template-columns: repeat(1, 1fr);
+        }
+        #combinedChart {
+          height: 500px;
+        }
+      }
+      @media only screen and (min-width: 481px) and (max-width: 900px) {
+        .calendar {
+          grid-template-columns: repeat(2, 1fr);
+          overflow-x: auto;
+        }
+        .inbody-table {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        #combinedChart {
+          height: 400px;
+        }
+      }
+      @media only screen and (min-width: 901px) {
+        .calendar {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .inbody-table {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        #combinedChart {
+          height: 300px;
+        }
+      }
+      .inbody-table {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        justify-items: center;
+      }
+      .inbody-table img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+      }
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 80%;
+        max-height: 80%;
+        overflow: auto;
+        position: relative;
+      }
+      .modal-img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 16px;
+        color: #555;
+      }
+      .lesson-box {
+        background-color: #f0f0f0;
+        padding: 10px;
+        text-align: center;
+      }
+      .personal-info {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+      }
+      .personal-info table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .personal-info th,
+      .personal-info td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+      }
+      .personal-info th {
+        background-color: #f0f0f0;
+      }
+      .next-session {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .schedule-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .schedule-link {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .schedule-link:hover {
+        background-color: #0056b3;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 style="text-align: center">환영합니다, <br /><br />ooo 회원님!</h1>
+      <br />
+      <p style="text-align: center">여기는 ooo 회원님의 개인 페이지입니다.</p>
+      <p style="text-align: center">
+        ooo 회원님의 pt 등록 세션은 10회이며, 최초 등록일은 0000-00-00일입니다.
+      </p>
+      <br />
+      <h2 style="text-align: center">
+        <a href="스케쥴.html" class="schedule-link">담당 선생님 스케줄표</a>
+        <br /><br />
+        ooo회원님 최초 상담기록
+      </h2>
+      <div class="personal-info">
+        <table>
+          <tr>
+            <th>성별</th>
+            <td>여</td>
+          </tr>
+          <tr>
+            <th>나이</th>
+            <td>28세</td>
+          </tr>
+          <tr>
+            <th>키</th>
+            <td>160cm</td>
+          </tr>
+          <tr>
+            <th>체중</th>
+            <td>55kg</td>
+          </tr>
+          <tr>
+            <th>특이사항</th>
+            <td>허리통증</td>
+          </tr>
+          <tr>
+            <th>운동목적</th>
+            <td>다이어트</td>
+          </tr>
+          <tr>
+            <th>목표설정</th>
+            <td>체지방감량</td>
+          </tr>
+        </table>
+      </div>
+      <br />
+
+      <h2 style="text-align: center">레슨 일지</h2>
+      <div style="text-align: center; margin-bottom: 20px">
+        <label for="lessonFilter">회차 선택:</label>
+        <select id="lessonFilter">
+          <option value="all">모두 보기</option>
+          <option value="1">1회차</option>
+          <option value="2">2회차</option>
+          <option value="3">3회차</option>
+          <!-- 필요에 따라 추가적인 회차를 여기에 추가 -->
+        </select>
+      </div>
+      <div class="calendar" id="lessonLog">
+        <!-- Header -->
+        <div class="calendar-header calendar-cell" data-lesson="1">
+          <div class="lesson-box">1회차</div>
+          <div>
+            <p>복근 운동</p>
+            <p>
+              <a href="/training/leg extension.html">레그익스텐션</a><br />1set:
+              10kg 20개<br />2set: 13kg 15개<br />3set: 15kg 12개<br />4set:
+              18kg 10개<br />5set: 20kg 8개
+            </p>
+            <p>
+              <a href="/training/lying leg curl.html">라잉 레그 컬</a
+              ><br />1set: 10kg 20개<br />2set: 13kg 15개<br />3set: 15kg
+              12개<br />4set: 18kg 10개<br />5set: 20kg 8개
+            </p>
+            <p>
+              <a href="/training/bb drag curl.html">바벨드래그컬</a><br />1set:
+              10kg 20개<br />2set: 13kg 15개<br />3set: 15kg 12개<br />4set:
+              18kg 10개<br />5set: 20kg 8개
+            </p>
+          </div>
+        </div>
+        <div class="calendar-header calendar-cell" data-lesson="2">
+          <div class="lesson-box">2회차</div>
+          <div>
+            <p>등 운동</p>
+            <p>
+              <a href="/training/db incline fly.html">덤벨인클라인플라이</a
+              ><br />1set: 10kg 20개<br />2set: 13kg 15개<br />3set: 15kg
+              12개<br />4set: 18kg 10개<br />5set: 20kg 8개
+            </p>
+            <p>
+              <a href="/training/db flat bench press.html">덤벨플랫벤치프레스</a
+              ><br />1set: 10kg 20개<br />2set: 13kg 15개<br />3set: 15kg
+              12개<br />4set: 18kg 10개<br />5set: 20kg 8개
+            </p>
+            <p>
+              <a href="/training/db fly.html">덤벨플라이</a><br />1set: 10kg
+              20개<br />2set: 13kg 15개<br />3set: 15kg 12개<br />4set: 18kg
+              10개<br />5set: 20kg 8개
+            </p>
+          </div>
+        </div>
+        <div class="calendar-header calendar-cell" data-lesson="3">
+          <div class="lesson-box">3회차</div>
+          <div>
+            <p>하체 운동</p>
+            <p>
+              <a href="/training/db squat.html">덤벨스쿼트</a><br />1set: 10kg
+              20개<br />2set: 13kg 15개<br />3set: 15kg 12개<br />4set: 18kg
+              10개<br />5set: 20kg 8개
+            </p>
+            <p>
+              <a href="/training/barbell squat.html">바벨스쿼트</a><br />1set:
+              10kg 20개<br />2set: 13kg 15개<br />3set: 15kg 12개<br />4set:
+              18kg 10개<br />5set: 20kg 8개
+            </p>
+            <p>
+              <a href="/training/lunges.html">런지</a><br />1set: 10kg 20개<br />2set:
+              13kg 15개<br />3set: 15kg 12개<br />4set: 18kg 10개<br />5set:
+              20kg 8개
+            </p>
+          </div>
+        </div>
+        <!-- 더 많은 회차 일지를 추가할 수 있습니다. -->
+      </div>
+
+      <div class="next-session">
+        <h3>다음 회차 예정 수업</h3>
+        <p>다음 회차 수업은 4회차입니다.</p>
+        <p>일정: 2024-08-01</p>
+        <p>예정 운동: 상체 운동</p>
+      </div>
+
+      <br />
+      <h2>인바디 기록</h2>
+      <div style="text-align: center; margin-bottom: 20px">
+        <label for="inbodyFilter">날짜 선택:</label>
+        <select id="inbodyFilter">
+          <option value="all">모두 보기</option>
+          <option value="2024-07-01">2024-07-01</option>
+          <option value="2024-07-10">2024-07-10</option>
+          <option value="2024-07-20">2024-07-20</option>
+          <!-- 필요에 따라 추가적인 날짜를 여기에 추가 -->
+        </select>
+      </div>
+      <div class="inbody-table" id="inbodyLog">
+        <div class="inbody-item" data-date="2024-07-01">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-01" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-10">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-10" />
+        </div>
+        <div class="inbody-item" data-date="2024-07-20">
+          <img src="/img/inbody.jpeg" alt="미디어 기록 2024-07-20" />
+        </div>
+        <!-- 더 많은 인바디 기록을 추가할 수 있습니다. -->
+      </div>
+      <br />
+      <div class="modal" id="modal" style="display: none">
+        <div class="modal-content">
+          <button class="close-btn" id="closeModal">&times;</button>
+          <img src="" alt="미디어" class="modal-img" id="modalImg" />
+        </div>
+      </div>
+      <br />
+      <h2>인바디 통계</h2>
+      <div style="position: relative; height: 400px">
+        <canvas id="combinedChart"></canvas>
+      </div>
+      <script>
+        // Chart.js 설정
+        const ctx = document.getElementById("combinedChart").getContext("2d");
+        const combinedChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: ["7/2", "8/3", "9/31", "10/1", "10/3"],
+            datasets: [
+              {
+                label: "체중 (kg)",
+                data: [55, 54, 53, 52, 51], // 체중 데이터
+                borderColor: "rgba(75, 192, 192, 1)",
+                yAxisID: "y1",
+              },
+              {
+                label: "근육량 (kg)",
+                data: [32, 33, 34, 35, 36], // 체중 데이터
+                borderColor: "rgba(255, 99, 132, 0.6)",
+                yAxisID: "y2",
+              },
+              {
+                label: "체지방량 (kg)",
+                data: [10, 10, 12, 11, 10], // 체중 데이터
+                borderColor: "rgba(22, 102, 255, 0.6)",
+                yAxisID: "y3",
+              },
+              {
+                label: "체지방률 (%)",
+                data: [20, 19, 18, 17, 13], // 체지방률 데이터
+                borderColor: "rgba(153, 102, 255, 1)",
+                yAxisID: "y4",
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y1: {
+                type: "linear",
+                position: "left",
+                beginAtZero: true,
+              },
+              y2: {
+                type: "linear",
+                position: "right",
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+
+        // 레슨 일지 필터링
+        document
+          .getElementById("lessonFilter")
+          .addEventListener("change", function () {
+            const selectedValue = this.value;
+            const lessonLog = document.getElementById("lessonLog");
+            const lessons = lessonLog.querySelectorAll(".calendar-header");
+
+            lessons.forEach((lesson) => {
+              if (
+                selectedValue === "all" ||
+                lesson.getAttribute("data-lesson") === selectedValue
+              ) {
+                lesson.style.display = "block";
+              } else {
+                lesson.style.display = "none";
+              }
+            });
+          });
+
+        // 인바디 기록 필터링
+        document
+          .getElementById("inbodyFilter")
+          .addEventListener("change", function () {
+            const selectedDate = this.value;
+            const inbodyLog = document.getElementById("inbodyLog");
+            const inbodyItems = inbodyLog.querySelectorAll(".inbody-item");
+
+            inbodyItems.forEach((item) => {
+              if (
+                selectedDate === "all" ||
+                item.getAttribute("data-date") === selectedDate
+              ) {
+                item.style.display = "block";
+              } else {
+                item.style.display = "none";
+              }
+            });
+          });
+
+        // 이미지 클릭 시 모달 열기
+        document.querySelectorAll(".inbody-table img").forEach((img) => {
+          img.addEventListener("click", function () {
+            document.getElementById("modalImg").src = this.src;
+            document.getElementById("modal").style.display = "flex";
+          });
+        });
+
+        // 모달 닫기
+        document
+          .getElementById("closeModal")
+          .addEventListener("click", function () {
+            document.getElementById("modal").style.display = "none";
+          });
+
+        window.addEventListener("click", function (event) {
+          if (event.target === document.getElementById("modal")) {
+            document.getElementById("modal").style.display = "none";
+          }
+        });
+      </script>
+    </div>
+  </body>
+</html>
