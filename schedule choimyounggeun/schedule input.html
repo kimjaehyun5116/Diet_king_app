@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="MacJae" />
+    <meta name="keywords" content="다킹" />
+    <meta name="description" content="다킹" />
+
+    <!-- sns share -->
+    <meta property="og:url" content="https://diet-king.netlify.app/" />
+    <meta property="og:title" content="다킹" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/main.png" />
+    <meta property="og:description" content="다킹" />
+
+    <!--favicon-->
+    <link rel="shortcut icon" href="/img/eggymlogo.png" />
+    <link rel="apple-touch-icon-precomposed" href="/img/eggymlogo.png" />
+    <ins
+      class="kakao_ad_area"
+      style="display: block; width: 320px; height: 100px; margin: 0 auto"
+      data-ad-unit="DAN-r5ZGKqtpS1grX41L"
+      data-ad-width="320"
+      data-ad-height="100"
+    ></ins>
+    <script
+      type="text/javascript"
+      src="//t1.daumcdn.net/kas/static/ba.min.js"
+      async
+    ></script>
+    <title>최명근 트레이너용 스케쥴표</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #f4f4f9;
+        color: #333;
+      }
+      #currentMonthYear {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 24px;
+        color: #444;
+      }
+      .month-navigation {
+        text-align: center;
+        margin: 10px 0;
+      }
+      .month-navigation button {
+        padding: 10px 20px;
+        margin: 0 5px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      .month-navigation button:hover {
+        background-color: #0056b3;
+      }
+      .search-wrapper {
+        text-align: center;
+        margin: 20px 0;
+      }
+      #searchMemo {
+        padding: 10px;
+        font-size: 16px;
+        width: 300px;
+        max-width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+        padding: 10px;
+        max-width: 900px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .calendar-header {
+        text-align: center;
+        padding: 5px;
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+      }
+      .calendar-cell {
+        border: 1px solid #ddd;
+        text-align: center;
+        position: relative;
+        min-height: 100px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        background-color: #fff;
+        transition: background-color 0.3s;
+      }
+      .calendar-cell:hover {
+        background-color: #f0f8ff;
+        cursor: pointer;
+      }
+      .calendar-cell.red-day {
+        background-color: #ffe5e5;
+        color: red;
+      }
+      .calendar-cell.blue-day {
+        background-color: #e5e5ff;
+        color: blue;
+      }
+      .preview-memos {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        max-height: 60px;
+        overflow-y: auto;
+        width: 100%; /* 셀에 꽉 차도록 설정 */
+      }
+
+      .preview-memo {
+        background-color: #e0e0e0;
+        padding: 5px;
+        border-radius: 3px;
+        margin-bottom: 5px;
+        text-align: left;
+        font-size: 12px;
+        width: 100%; /* 셀에 꽉 차도록 설정 */
+        box-sizing: border-box; /* padding을 포함하여 width가 설정되도록 함 */
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+      }
+      .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 600px;
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: #333;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .close:hover {
+        color: #007bff;
+      }
+      .time-slots {
+        margin-top: 10px;
+      }
+      .time-slot {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+      }
+      .time-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .time-memo {
+        display: flex;
+        flex-direction: column;
+      }
+      .time-memo textarea {
+        width: 100%;
+        height: 60px;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: none;
+      }
+      .color-picker {
+        margin-top: 5px;
+      }
+      .modal-open {
+        overflow: hidden;
+      }
+      @media (max-width: 600px) {
+        .calendar {
+          grid-template-columns: repeat(7, 1fr);
+          gap: 1px;
+        }
+        .calendar-cell {
+          min-height: 80px;
+        }
+        #searchMemo {
+          width: 80%;
+          font-size: 14px;
+        }
+        .month-navigation button {
+          padding: 8px 16px;
+          font-size: 14px;
+        }
+        .modal-content {
+          max-width: 80%;
+          padding: 15px;
+        }
+        .modal-content .time-slot {
+          flex-direction: column;
+        }
+        .time-memo textarea {
+          height: 50px;
+        }
+        .preview-memos {
+          flex-direction: column;
+          max-height: 40px;
+          overflow-x: auto;
+          overflow-y: hidden;
+        }
+        .preview-memo {
+          padding: 2px 5px;
+          margin-bottom: 0;
+          margin-right: 5px;
+          font-size: 10px;
+          white-space: nowrap;
+        }
+      }
+      /* 미디어 쿼리: 테블릿 화면 크기 */
+      @media (min-width: 601px) and (max-width: 1024px) {
+        .calendar {
+          grid-template-columns: repeat(7, 1fr);
+          gap: 1px;
+        }
+        .calendar-cell {
+          min-height: 80px;
+        }
+        #searchMemo {
+          width: 90%;
+          font-size: 14px;
+        }
+        .month-navigation button {
+          padding: 8px 16px;
+          font-size: 14px;
+        }
+        .modal-content {
+          max-width: 80%;
+        }
+        .preview-memos {
+          flex-direction: column;
+          max-height: 40px;
+          overflow-x: auto;
+          overflow-y: hidden;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="currentMonthYear">2024년 7월 스케줄표</h1>
+
+    <div class="month-navigation">
+      <button id="prevMonth">이전 월</button>
+      <button id="nextMonth">다음 월</button>
+    </div>
+
+    <div class="search-wrapper">
+      <input type="text" id="searchMemo" placeholder="메모 내용 검색" />
+    </div>
+
+    <div class="calendar" id="calendar"></div>
+
+    <div id="dateModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="modalClose">&times;</span>
+        <h2 id="modalDateTitle"></h2>
+        <div class="calendar-cell" id="modalDateCell">
+          <div class="time-slots"></div>
+        </div>
+        <button id="saveMemoButton">저장</button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+        getDoc,
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCx_AlSQLpW-KpYXpk0M2mDxVb7CZa_xUk",
+        authDomain: "diet-king-b567d.firebaseapp.com",
+        projectId: "diet-king-b567d",
+        storageBucket: "diet-king-b567d.appspot.com",
+        messagingSenderId: "11155339798",
+        appId: "1:11155339798:web:423854835f18e0b7c21337",
+        measurementId: "G-N9N8T32MVH",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      let currentYear = new Date().getFullYear();
+      let currentMonth = new Date().getMonth() + 1;
+      let selectedDate = "";
+      let memos = {};
+
+      document
+        .getElementById("prevMonth")
+        .addEventListener("click", () => changeMonth(-1));
+      document
+        .getElementById("nextMonth")
+        .addEventListener("click", () => changeMonth(1));
+      document
+        .getElementById("searchMemo")
+        .addEventListener("input", applySearchFilter);
+
+      async function createCalendar(year, month) {
+        const calendar = document.getElementById("calendar");
+        calendar.innerHTML = "";
+
+        const daysInMonth = new Date(year, month, 0).getDate();
+        const firstDay = new Date(year, month - 1, 1).getDay();
+
+        const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+        daysOfWeek.forEach((day) => {
+          const headerCell = document.createElement("div");
+          headerCell.className = "calendar-header";
+          headerCell.textContent = day;
+          calendar.appendChild(headerCell);
+        });
+
+        for (let i = 0; i < firstDay; i++) {
+          const emptyCell = document.createElement("div");
+          emptyCell.className = "calendar-cell";
+          calendar.appendChild(emptyCell);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const cell = document.createElement("div");
+          cell.className = "calendar-cell";
+          cell.innerHTML = `<div>${day}</div>`;
+          console.log(`Adding Day: ${day}`);
+
+          const dayOfWeek = new Date(year, month - 1, day).getDay();
+          // console.log(`Day: ${day}, DayOfWeek: ${dayOfWeek}`); // 요일 로그 확인
+          if (dayOfWeek === 0) {
+            cell.classList.add("red-day");
+          } else if (dayOfWeek === 6) {
+            cell.classList.add("blue-day");
+          }
+
+          const previewMemos = document.createElement("div");
+          previewMemos.className = "preview-memos";
+          cell.appendChild(previewMemos);
+
+          calendar.appendChild(cell);
+
+          cell.addEventListener("click", () => showModal(day));
+        }
+
+        document.getElementById("currentMonthYear").textContent = `${year}년 ${
+          month < 10 ? "0" + month : month
+        }월 스케줄표`;
+
+        await loadMemos(year, month);
+      }
+
+      async function showModal(day) {
+        const modal = document.getElementById("dateModal");
+        const modalDateTitle = document.getElementById("modalDateTitle");
+        const modalDateCell = document.getElementById("modalDateCell");
+
+        const dateKey = `${currentYear}-${
+          currentMonth < 10 ? "0" + currentMonth : currentMonth
+        }-${day < 10 ? "0" + day : day}`;
+        selectedDate = dateKey;
+
+        modalDateTitle.textContent = `${currentYear}년 ${
+          currentMonth < 10 ? "0" + currentMonth : currentMonth
+        }월 ${day}일`;
+
+        const timeSlotsDiv = modalDateCell.querySelector(".time-slots");
+        timeSlotsDiv.innerHTML = "";
+
+        const memosForDate = memos[dateKey] || [];
+        for (let hour = 6; hour < 24; hour++) {
+          const timeSlot = document.createElement("div");
+          timeSlot.className = "time-slot";
+
+          const timeLabel = document.createElement("div");
+          timeLabel.className = "time-label";
+          timeLabel.textContent = `${hour}:00`;
+          timeSlot.appendChild(timeLabel);
+
+          const timeMemoDiv = document.createElement("div");
+          timeMemoDiv.className = "time-memo";
+
+          const memoTextarea = document.createElement("textarea");
+          const memo = memosForDate.find((memo) => memo.hour === hour);
+          memoTextarea.value = memo ? memo.text : "";
+          timeMemoDiv.appendChild(memoTextarea);
+
+          const colorPicker = document.createElement("input");
+          colorPicker.type = "color";
+          colorPicker.value = memo ? memo.color : "#ffffff";
+          colorPicker.className = "color-picker";
+          timeMemoDiv.appendChild(colorPicker);
+
+          timeSlot.appendChild(timeMemoDiv);
+          timeSlotsDiv.appendChild(timeSlot);
+        }
+
+        modal.style.display = "flex";
+        document.body.classList.add("modal-open");
+
+        const saveButton = document.getElementById("saveMemoButton");
+        saveButton.onclick = async () => saveMemos(dateKey);
+      }
+
+      async function saveMemos(dateKey) {
+        const modalDateCell = document.getElementById("modalDateCell");
+        const timeSlots = modalDateCell.querySelectorAll(".time-slot");
+
+        const memosForDate = Array.from(timeSlots).map((slot) => {
+          const hour = parseInt(
+            slot.querySelector(".time-label").textContent.split(":")[0]
+          );
+          const text = slot.querySelector("textarea").value.trim();
+          const color = slot.querySelector(".color-picker").value;
+          return { hour, text, color };
+        });
+
+        memos[dateKey] = memosForDate;
+
+        await setDoc(doc(db, "choimyounggeun", dateKey), {
+          memos: memosForDate,
+        });
+
+        document.getElementById("dateModal").style.display = "none";
+        document.body.classList.remove("modal-open");
+
+        await createCalendar(currentYear, currentMonth);
+      }
+
+      async function loadMemos(year, month) {
+        const calendarCells = document.querySelectorAll(".calendar-cell");
+
+        const querySnapshot = await getDocs(collection(db, "choimyounggeun"));
+        memos = {};
+        querySnapshot.forEach((doc) => {
+          const [docYear, docMonth, docDay] = doc.id.split("-");
+          if (parseInt(docYear) === year && parseInt(docMonth) === month) {
+            memos[doc.id] = doc.data().memos;
+            const dayCell = Array.from(calendarCells).find((cell) => {
+              const dayElement = cell.firstChild;
+              return (
+                dayElement &&
+                parseInt(dayElement.textContent) === parseInt(docDay)
+              );
+            });
+
+            if (dayCell) {
+              const previewMemos = dayCell.querySelector(".preview-memos");
+              previewMemos.innerHTML = "";
+
+              let hasMemo = false;
+              doc.data().memos.forEach((memo) => {
+                if (memo.text.trim() !== "") {
+                  const memoDiv = document.createElement("div");
+                  memoDiv.className = "preview-memo";
+                  memoDiv.textContent = memo.text;
+                  memoDiv.style.backgroundColor = memo.color;
+                  previewMemos.appendChild(memoDiv);
+                  hasMemo = true;
+                }
+              });
+
+              // if (!hasMemo) {
+              //   dayCell.style.display = "none";
+              // }
+            }
+          }
+        });
+      }
+
+      function closeDateModal() {
+        const modal = document.getElementById("dateModal");
+        modal.style.display = "none";
+        document.body.classList.remove("modal-open");
+      }
+
+      function changeMonth(offset) {
+        currentMonth += offset;
+        if (currentMonth < 1) {
+          currentMonth = 12;
+          currentYear -= 1;
+        } else if (currentMonth > 12) {
+          currentMonth = 1;
+          currentYear += 1;
+        }
+        createCalendar(currentYear, currentMonth);
+      }
+
+      function applySearchFilter() {
+        const searchInput = document
+          .getElementById("searchMemo")
+          .value.toLowerCase();
+        const calendarCells = document.querySelectorAll(".calendar-cell");
+
+        calendarCells.forEach((cell) => {
+          const previewMemos = cell.querySelectorAll(".preview-memo");
+          const cellMatches = Array.from(previewMemos).some((memo) =>
+            memo.textContent.toLowerCase().includes(searchInput)
+          );
+
+          cell.style.display = cellMatches || !searchInput ? "block" : "none";
+        });
+      }
+
+      document
+        .getElementById("modalClose")
+        .addEventListener("click", closeDateModal);
+
+      createCalendar(currentYear, currentMonth);
+    </script>
+  </body>
+</html>

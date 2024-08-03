@@ -38,6 +38,12 @@
         display: inline-flex;
       }
 
+      .rating {
+        font-size: 1em; /* 별의 크기 조절 */
+        color: gold; /* 채워진 별의 색상 */
+        display: inline-flex;
+      }
+
       .star {
         display: inline-block;
         position: relative;
@@ -49,12 +55,12 @@
 
       .star.half {
         position: relative;
-        color: gold; /* 반쪽 별의 채워진 부분 색상 */
+        color: lightgrayold; /* 반쪽 별의 채워진 부분 색상 */
       }
 
       .star.half::after {
         content: "\2605"; /* ★ (별) */
-        color: lightgray; /* 반쪽 별의 비어 있는 부분 색상 */
+        color: gold; /* 반쪽 별의 비어 있는 부분 색상 */
         position: absolute;
         width: 50%;
         left: 0;
@@ -600,7 +606,7 @@
                 <a href="/weppage/contentspage3.html">레벨별 운동 프로그램</a>
               </li>
               <li>
-                <a href="/weppage/reviewpage.html">용품 & 식품 & 보충제 리뷰</a>
+                <a href="/weppage/reviewpage.html">용품&식품&보충제 리뷰</a>
               </li>
               <li>
                 <a href="/weppage/contentspage4.html">가까운 헬스장 찾기</a>

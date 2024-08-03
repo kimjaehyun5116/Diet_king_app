@@ -19,40 +19,48 @@
     <link rel="apple-touch-icon-precomposed" href="/img/favicon.ico" />
     <title>월간 스케줄표</title>
     <style>
+      /* 기본 설정 */
       body {
         font-family: Arial, sans-serif;
         background-color: #f0f0f0;
         margin: 0;
         padding: 20px;
       }
+
       .calendar {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         gap: 1px;
         background-color: #ccc;
       }
+
       .calendar-header,
       .calendar-cell {
         padding: 10px;
         text-align: center;
         background-color: white;
       }
+
       .calendar-header {
         font-weight: bold;
         background-color: #f4f4f4;
       }
+
       .calendar-cell {
         border: 1px solid #ddd;
         position: relative;
         display: flex;
         flex-direction: column;
+        height: 80px;
       }
+
       .calendar-cell .time-slots {
         display: flex;
         flex-direction: column;
-        height: 300px;
-        overflow-y: auto;
+        height: 100%; /* 부모의 높이에 맞추기 */
+        overflow-y: auto; /* 스크롤 가능하도록 설정 */
       }
+
       .time-slot {
         border-bottom: 1px solid #ddd;
         padding: 2px;
@@ -60,16 +68,19 @@
         align-items: center;
         flex-direction: row;
       }
+
       .time-slot .time-label {
         width: 60px;
         font-size: 14px;
         text-align: center;
         border-right: 1px solid #ddd;
       }
+
       .time-slot .time-memo {
         flex: 1;
         padding: 5px;
       }
+
       .time-slot .time-memo textarea {
         width: 100%;
         height: 100%;
@@ -80,15 +91,20 @@
         background-color: #f9f9f9;
         font-size: 12px; /* 글씨 크기를 조정 */
       }
+
       .filter-wrapper {
         margin-bottom: 20px;
       }
+
       .filter-wrapper label {
         margin-right: 10px;
       }
+
       .filter-wrapper select {
         margin-right: 10px;
       }
+
+      /* 모달 스타일 */
       .modal {
         display: none;
         position: fixed;
@@ -101,16 +117,23 @@
         align-items: center;
         z-index: 1000;
       }
+
       .modal-content {
         background: white;
         padding: 20px;
         border-radius: 8px;
         width: 90%;
-        max-width: 600px;
+        max-width: 800px; /* 모달의 최대 너비를 설정 */
+        max-height: 80vh; /* 화면 높이의 80%까지 사용할 수 있도록 설정 */
+        overflow-y: auto; /* 스크롤이 가능하도록 설정 */
         position: relative;
-        max-height: 90vh;
-        overflow-y: auto;
       }
+
+      .modal-content .calendar-cell {
+        display: block;
+        height: auto; /* 높이 자동 조절 */
+      }
+
       .modal-content .close {
         position: absolute;
         top: 10px;
@@ -118,41 +141,51 @@
         cursor: pointer;
         font-size: 20px;
       }
-      .modal-content .calendar-cell {
-        display: block;
-      }
-      .modal-content .time-slots {
-        height: auto;
-      }
+
+      /* 모달 열렸을 때 바디 스크롤 방지 */
       body.modal-open {
         overflow: hidden;
       }
+
+      /* 달력 내비게이션 */
       .month-navigation {
         text-align: center;
         margin-top: 20px;
         margin-bottom: 20px;
       }
+
       .month-navigation button {
         margin: 0 10px;
       }
+
+      /* 반응형 디자인 */
       @media (max-width: 768px) {
         .time-slot {
           flex-direction: column;
         }
+
         .time-slot .time-label {
           width: 100%;
+          height: 100%;
           border-right: none;
           border-bottom: 1px solid #ddd;
         }
+
         .time-slot .time-memo {
           width: 100%;
+        }
+
+        .modal-content {
+          width: 100%;
+          max-width: 100%;
+          max-height: 80vh;
         }
       }
     </style>
   </head>
   <body>
     <h1 style="text-align: center" id="currentMonthYear">
-      2024년 7월 스케줄표
+      2024년 8월 스케줄표
     </h1>
 
     <!-- 이전/다음 월 버튼 -->
@@ -190,7 +223,7 @@
 
     <script>
       let currentYear = 2024;
-      let currentMonth = 7;
+      let currentMonth = 8;
 
       // 메모 데이터 저장 객체
       const memoData = {};
@@ -485,12 +518,12 @@
       addMemo(29, 12, "개인운동", "#87CEEB", 2024, 8);
       addMemo(30, 11, "개인운동", "#87CEEB", 2024, 8);
       addMemo(30, 12, "개인운동", "#87CEEB", 2024, 8);
-      addMemo(30, 9, "이다은OT", "#0000ff", 2024, 7);
       addMemo(30, 10, "양은란PT", "#ffa500", 2024, 7);
+      addMemo(31, 10, "황도현OT", "#00FF00", 2024, 7);
       addMemo(31, 19, "이민우PT", "#00FF00", 2024, 7);
-      addMemo(1, 9, "이주현PT", "#00FF00", 2024, 8);
+      addMemo(1, 9, "이현주PT", "#00FF00", 2024, 8);
       addMemo(1, 10, "양은란PT", "#ffa500", 2024, 8);
-      addMemo(1, 11, "이은결OT", "#0000ff", 2024, 8);
+      addMemo(1, 11, "박민선PT", "#0000ff", 2024, 8);
       addMemo(1, 12, "개인운동", "#87CEEB", 2024, 8);
       addMemo(1, 13, "개인운동", "#87CEEB", 2024, 8);
       addMemo(1, 20, "김재룡PT", "#FFA500", 2024, 8);
@@ -500,15 +533,26 @@
       addMemo(2, 11, "개인운동", "#87CEEB", 2024, 8);
       addMemo(2, 12, "개인운동", "#87CEEB", 2024, 8);
       addMemo(2, 19, "이민우PT", "#00FF00", 2024, 8);
-      addMemo(2, 20, "조용식PT", "#4682B4", 2024, 8);
-      addMemo(5, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(5, 10, "양은란PT", "#ffa500", 2024, 8);
       addMemo(5, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(5, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(5, 14, "오정인PT", "#87CEEB", 2024, 8);
+      addMemo(5, 19, "황지은", "#87CEEB", 2024, 8);
       addMemo(5, 20, "이상민OT", "#FFA500", 2024, 8);
+      addMemo(5, 21, "이현주PT", "#87CEEB", 2024, 8);
       addMemo(6, 9, "이서홍PT", "#0000ff", 2024, 8);
-      addMemo(6, 11, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(6, 10, "이다은OT", "#8A2BE2", 2024, 8);
+      addMemo(6, 11, "황도현OT2", "#8A2BE2", 2024, 8);
       addMemo(6, 12, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(6, 13, "개인운동", "#87CEEB", 2024, 8);
+      addMemo(6, 14, "이유미OT", "#8A2BE2", 2024, 8);
       addMemo(6, 20, "김재룡PT", "#FFA500", 2024, 8);
-
+      addMemo(6, 21, "박재희PT", "#FF0000", 2024, 8);
+      addMemo(6, 22, "박민선PT", "#0000ff", 2024, 8);
+      addMemo(7, 20, "조용식PT", "#4682B4", 2024, 8);
+      addMemo(8, 10, "양은란PT", "#ffa500", 2024, 8);
+      addMemo(9, 20, "박재희PT", "#FF0000", 2024, 8);
+      addMemo(13, 10, "양은란PT", "#ffa500", 2024, 8);
       // 초기 로드시 현재 월 메모 표시
       createCalendar(currentYear, currentMonth);
     </script>
