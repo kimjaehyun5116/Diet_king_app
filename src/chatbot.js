@@ -2,9 +2,6 @@ const chatMessages = document.querySelector("#chat-messages");
 const userInput = document.querySelector("#user-input input");
 const sendButton = document.querySelector("#user-input button");
 
-const apiEndpoint = "https://api.openai.com/v1/chat/completions"; // OpenAI GPT API 엔드포인트
-const apiKey = ""; // OpenAI API 키
-
 sendButton.addEventListener("click", async () => {
   const message = userInput.value.trim();
   if (message.length === 0) return;
